@@ -1,6 +1,6 @@
-#' A Cat Function
+#' A function to send feedback
 #'
-#' This function allows you to express your love of cats.
+#' Snds email using mailR
 #' @param name Sender's name
 #' @param email Sender's email
 #' @param comment Email's content, the feedback they submitted

@@ -2,7 +2,7 @@
 % Please edit documentation in R/submitFeedback.R
 \name{submitFeedback}
 \alias{submitFeedback}
-\title{A Cat Function}
+\title{A function to send feedback}
 \usage{
 submitFeedback(name = input$name, email = input$email,
   comment = input$comment, emails = emails)
@@ -17,7 +17,7 @@ submitFeedback(name = input$name, email = input$email,
 \item{emails}{vector of emails to send feedback to}
 }
 \description{
-This function allows you to express your love of cats.
+Snds email using mailR
 }
 \examples{
 submitFeedback()
