@@ -4,10 +4,11 @@
 #' @param name Sender's name
 #' @param email Sender's email
 #' @param comment Email's content, the feedback they submitted
+#' @param emails vector of emails to send feedback to
 #' @examples
 #' submitFeedback()
 #'
-submitFeedback<-function(name=input$name,email=input$email,comment=input$comment){
+submitFeedback<-function(name=input$name,email=input$email,comment=input$comment,emails){
 
   body<-paste("<p><strong>",name,"</strong> has sent feedback from our PBB open data site.</p>
                         <p>",name," has provided the following email: ",email,"</p>
