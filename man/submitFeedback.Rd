@@ -5,7 +5,7 @@
 \title{A function to send feedback}
 \usage{
 submitFeedback(name = input$name, email = input$email,
-  comment = input$comment, emails = emails)
+  comment = input$comment, emails = emails, Subject)
 }
 \arguments{
 \item{name}{Sender's name}
