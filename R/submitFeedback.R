@@ -1,10 +1,11 @@
 #' A function to send feedback
 #'
-#' Snds email using mailR
+#' Sends email using mailR
 #' @param name Sender's name
 #' @param email Sender's email
 #' @param comment Email's content, the feedback they submitted
 #' @param emails vector of emails to send feedback to
+#' @export
 #' @examples
 #' submitFeedback()
 #'

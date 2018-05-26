@@ -17,7 +17,7 @@ submitFeedback(name = input$name, email = input$email,
 \item{emails}{vector of emails to send feedback to}
 }
 \description{
-Snds email using mailR
+Sends email using mailR
 }
 \examples{
 submitFeedback()
