@@ -5,7 +5,7 @@
 \title{A Cat Function}
 \usage{
 submitFeedback(name = input$name, email = input$email,
-  comment = input$comment)
+  comment = input$comment, emails = emails)
 }
 \arguments{
 \item{name}{Sender's name}
@@ -13,6 +13,8 @@ submitFeedback(name = input$name, email = input$email,
 \item{email}{Sender's email}
 
 \item{comment}{Email's content, the feedback they submitted}
+
+\item{emails}{vector of emails to send feedback to}
 }
 \description{
 This function allows you to express your love of cats.
