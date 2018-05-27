@@ -18,7 +18,11 @@
 #' showModal(ProgramModal(Modal_header=T,Modal_tabs=T,TotalCost=T,Positions=T,OperatingCosts=T))
 
 
-ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost=T,Positions=T,OperatingCosts=T){
+ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost=T,Positions=T,OperatingCosts=T,
+                       Program=input$chartdata_Program,
+                       Desc=input$chartdata_Desc,
+                       TotalCost=input$chartdata_TotalCost,
+                       FTE=input$chartdata_FTE){
 
   if(Modal_header==T){
 
@@ -26,9 +30,9 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost=T,Positions=T,Opera
     if(Modal_tabs==T)(rule<-hr())else(rule<-NULL)
 
     Modal_header<- tagList(
-          p(strong('Description: '),input$chartdata_Desc),
-          p(strong('Total Cost: '),format(as.numeric(input$chartdata_TotalCost),big.mark=',')),
-          p(strong('FTE: '),input$chartdata_FTE),
+          p(strong('Description: '),Desc),
+          p(strong('Total Cost: '),format(as.numeric(TotalCost),big.mark=',')),
+          p(strong('FTE: '),FTE),
           rule
     )
 
@@ -57,13 +61,13 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost=T,Positions=T,Opera
 
 
   modalDialog(
-        title = input$chartdata_Program,size='l',easyClose = T,
-        tagList(
+        title = Program,size='l',easyClose = T,
 
+        tagList(
           Modal_header,
           Modal_tabs
-          )
         )
+  )
 
 }
 
