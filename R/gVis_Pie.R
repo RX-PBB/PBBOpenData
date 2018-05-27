@@ -43,7 +43,7 @@ rollup_gvisPie<-function(df,labelvar,numvar){
 
 gVis_Pie_ProgramCostSummary<-function(df,dataTitle='Total Cost: ',labelvar='Cost Type',numvar='Cost'){
 
-       df<-rollup_gvisPie(df,labelvar = 'Cost Type',numvar = numvar)
+       df<-rollup_gvisPie(df,labelvar = labelvar, numvar = numvar)
 
        df[,numvar]<-round(df[,numvar],digits=0)
        df<-df[order(-df[,numvar]),]
