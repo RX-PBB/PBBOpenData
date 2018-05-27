@@ -46,6 +46,7 @@ gVis_Pie_ProgramCostSummary<-function(df,dataTitle='Total Cost: ',labelvar='Cost
        df<-rollup_gvisPie(df,labelvar = 'Cost Type',numvar = numvar)
 
        df[,numvar]<-round(df[,numvar],digits=0)
+       df<-df[order(-df[,numvar]),]
        colnames(df)[1]<-labelvar
 
        dataTitle<-paste(dataTitle,format(round(sum(df[,numvar],na.rm = T),digits = 0),big.mark = ','),sep='')
