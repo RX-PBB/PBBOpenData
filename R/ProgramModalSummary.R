@@ -5,6 +5,67 @@
 #**************************************************
 
 
+#' Program Summary Modal
+#'
+#' Creates a modal summary of a program. You may select to only include a header summary or select what tabs to include.
+#' @param Modal_header Summary of data echo'd back from the csv setup file
+#' @param TotalCost Pie chart of Personnel and NonPersonnel
+#' @param Positions Include Position Pie and Table
+#' @param OperatingCosts Include operating cost pie and table
+#' @export
+#' @examples
+#' showModal(ProgramModal(Modal_header=T,Modal_tabs=F,TotalCost=T,Positions=T,OperatingCosts=T))
+#' showModal(ProgramModal(Modal_header=T,Modal_tabs=T,TotalCost=T,Positions=T,OperatingCosts=T))
+
+
+ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost=T,Positions=T,OperatingCosts=T){
+
+  if(Modal_header==T){
+
+    #if we include a tabset, put this break in.
+    if(Modal_tabs==T)(rule<-hr())else(rule<-NULL)
+
+    Modal_header<- tagList(
+          p(strong('Description: '),input$chartdata_Desc),
+          p(strong('Total Cost: '),format(as.numeric(input$chartdata_TotalCost),big.mark=',')),
+          p(strong('FTE: '),input$chartdata_FTE),
+          rule
+    )
+
+  }
+
+  if(TotalCost==T)(TotalCost<-tabPanel('Total Cost',htmlOutput("ProgramTotal_GvizPlot")))else(TotalCost<-NULL)
+
+  if(Positions==T){Positions<-tabPanel('Positions',
+                     #uiOutput('PersonnelCosts_UI'),
+                      htmlOutput("ProgramPersonnel_GvizPlot"),
+                      rHandsontableOutput('ProgramPersonnel_hot')
+            )}else(Positions<-NULL)
+
+  if(OperatingCosts==T){OperatingCosts<-tabPanel('Operating Costs',
+                     #uiOutput('NonPersonnelCosts_UI'),
+                      htmlOutput("ProgramNonPersonnel_GvizPlot"),
+                      rHandsontableOutput('ProgramNonPersonnel_hot')
+            )}else(OperatingCosts<-NULL)
+
+  if(Modal_tabs==T){
+
+    Modal_tabs<-tagList(tabsetPanel(TotalCost,Positions,OperatingCosts))
+
+  }else(Modal_tabs<-NULL)
+
+
+
+  modalDialog(
+        title = input$chartdata_Program,size='l',easyClose = T,
+        tagList(
+
+          Modal_header,
+          Modal_tabs
+          )
+        )
+
+}
 
 
 
