@@ -41,7 +41,7 @@ rollup_gvisPie<-function(df,labelvar,numvar){
 #' @examples
 #' rollup_gvisPie(df,labelvar='Cost Type',numvar='Cost')
 
-gVis_Pie_ProgramCostSummary<-function(df,dataTitle='Total Cost: ',labelvar='Cost Type',numvar='Cost'){
+gVis_Pie_ProgramCostSummary<-function(df,dataTitle='Total Cost: ',labelvar='Cost Type',numvar='Cost',sliceVisibilityThreshold= NULL){
 
        df<-rollup_gvisPie(df,labelvar = labelvar, numvar = numvar)
 
@@ -57,6 +57,7 @@ gVis_Pie_ProgramCostSummary<-function(df,dataTitle='Total Cost: ',labelvar='Cost
                     title=dataTitle,
                     legend= "{position: 'labeled', alignment: 'start' }",
                     pieSliceText='value',
+                    sliceVisibilityThreshold= sliceVisibilityThreshold,
                     pieHole=0.0))
 
 }
