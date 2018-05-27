@@ -18,7 +18,7 @@ gVis_Pie_ProgramCostSummary(df, dataTitle = "Total Cost: ",
 \item{numvar}{Number to sum, example "Cost"}
 }
 \description{
-Sends email using mailR
+makes a plot
 }
 \examples{
 rollup_gvisPie(df,labelvar='Cost Type',numvar='Cost')

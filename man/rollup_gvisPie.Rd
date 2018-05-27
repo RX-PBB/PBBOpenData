@@ -14,7 +14,7 @@ rollup_gvisPie(df, labelvar, numvar)
 \item{numvar}{Number to sum, example "Cost"}
 }
 \description{
-Sends email using mailR
+rolls up data for gvis plots
 }
 \examples{
 rollup_gvisPie(df,labelvar='Cost Type',numvar='Cost')

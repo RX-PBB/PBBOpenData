@@ -5,6 +5,36 @@
 #**************************************************
 
 
+
+
+
+#*********************************************************************
+# Subset Function - Sometimes we want ProgID, sometimes we want name
+#*********************************************************************
+
+#' helper function for making data for gvis plots
+#'
+#' subsets data
+#' @param df Data to subset
+#' @param select_by column to select on.
+#' @param filter row element to choose. Example, Prg# = 510
+#' @param Cost.Type Option to subset by Personnel or NonPersonnel
+#' @export
+#' @examples
+#' subset_SummaryAll(df=SummaryAll,select_by='Prg#',filter=chartdata_Program(),Cost.Type=NULL)
+
+subset_SummaryAll<-function(df,select_by,filter,Cost.Type=NULL){
+
+  df<-df[which(is.element(df[,select_by],filter)),]
+
+  if(!is.null(Cost.Type))(df<-df[df[,'Cost.Type']==Cost.Type,])
+
+  return(df)
+
+
+}
+
+
 #-------------------------------------------------
 #
 #  gVis Pie's
@@ -13,7 +43,7 @@
 
 #' helper function for making data for gvis plots
 #'
-#' Sends email using mailR
+#' rolls up data for gvis plots
 #' @param df Data to roll up
 #' @param labelvar label variable, example "Personnel"
 #' @param numvar Number to sum, example "Cost"
@@ -45,7 +75,7 @@ rollup_gvisPie<-function(df,labelvar,numvar){
 
 #' Function for making gVis Cost summary of Total Cost, Personnel, or NonPersonnel
 #'
-#' Sends email using mailR
+#' makes a plot
 #' @param df Program summary data
 #' @param dataTitle Title for cost summary. Example "Total Cost: " or "Personnel: "
 #' @param labelvar label variable, example "Personnel"

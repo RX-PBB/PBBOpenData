@@ -3,3 +3,4 @@
 export(gVis_Pie_ProgramCostSummary)
 export(rollup_gvisPie)
 export(submitFeedback)
+export(subset_SummaryAll)
