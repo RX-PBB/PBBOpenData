@@ -2,7 +2,7 @@
 % Please edit documentation in R/ProgramModalSummary.R
 \name{rollup_gvisPie}
 \alias{rollup_gvisPie}
-\title{helper function for making data for gvis plots}
+\title{rollup_gvisPie}
 \usage{
 rollup_gvisPie(df, labelvar, numvar)
 }

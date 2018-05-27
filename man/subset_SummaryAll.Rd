@@ -2,7 +2,7 @@
 % Please edit documentation in R/ProgramModalSummary.R
 \name{subset_SummaryAll}
 \alias{subset_SummaryAll}
-\title{helper function for making data for gvis plots}
+\title{subset_SummaryAll}
 \usage{
 subset_SummaryAll(df, select_by, filter, Cost.Type = NULL)
 }

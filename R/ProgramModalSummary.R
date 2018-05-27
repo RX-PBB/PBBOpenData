@@ -77,7 +77,7 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab
 # Subset Function - Sometimes we want ProgID, sometimes we want name
 #*********************************************************************
 
-#' helper function for making data for gvis plots
+#' subset_SummaryAll
 #'
 #' subsets data
 #' @param df Data to subset
@@ -106,7 +106,7 @@ subset_SummaryAll<-function(df,select_by,filter,Cost.Type=NULL){
 #
 #-------------------------------------------------
 
-#' helper function for making data for gvis plots
+#' rollup_gvisPie
 #'
 #' rolls up data for gvis plots
 #' @param df Data to roll up
@@ -138,7 +138,7 @@ rollup_gvisPie<-function(df,labelvar,numvar){
 
 
 
-#' Function for making gVis Cost summary of Total Cost, Personnel, or NonPersonnel
+#' gVis_Pie_ProgramCostSummary
 #'
 #' makes a plot
 #' @param df Program summary data
@@ -168,4 +168,33 @@ gVis_Pie_ProgramCostSummary<-function(df,dataTitle='Total Cost: ',labelvar='Cost
                     sliceVisibilityThreshold= sliceVisibilityThreshold,
                     pieHole=0.0))
 
+}
+
+
+#-------------------------------------------------
+#
+#  rhandson Tables
+#
+#-------------------------------------------------
+
+#' rhandson_ProgramCostSummary
+#'
+#' Makes a cost summary tabel for our Program Summary Modal
+#' @param df Cost data to summarize
+#' @param height Table height
+#' @export
+#' @examples
+#' showModal(ProgramModal(Modal_header=T,Modal_tabs=F,TotalCost=T,Positions=T,OperatingCosts=T))
+
+
+rhandson_ProgramCostSummary<-function(df,height=175){
+
+    df<-df[order(-df$Cost),]
+
+    hot<-rhandsontable(df, rowHeaders = F,stretchH='all',readOnly=T,height=height,fillHandle = list(direction='vertical', autoInsertRow=FALSE)) %>%
+                hot_context_menu(allowRowEdit = FALSE, manualColumnMove=T,allowColEdit = FALSE) %>%
+                hot_cols(columnSorting = F) %>% #,colWidths=col.widths) %>%
+                hot_col('Cost', format="0,0") %>%
+                hot_col('Allocation', format="0.00")
+    return(hot)
 }

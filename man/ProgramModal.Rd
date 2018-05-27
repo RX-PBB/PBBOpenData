@@ -4,8 +4,10 @@
 \alias{ProgramModal}
 \title{Program Summary Modal}
 \usage{
-ProgramModal(Modal_header = T, Modal_tabs = T, TotalCost = T,
-  Positions = T, OperatingCosts = T)
+ProgramModal(Modal_header = T, Modal_tabs = T, TotalCost_tab = T,
+  Positions_tab = T, OperatingCosts_tab = T,
+  Program = input$chartdata_Program, Desc = input$chartdata_Desc,
+  TotalCost = input$chartdata_TotalCost, FTE = input$chartdata_FTE)
 }
 \arguments{
 \item{Modal_header}{Summary of data echo'd back from the csv setup file}

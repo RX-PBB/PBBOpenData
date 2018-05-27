@@ -2,7 +2,7 @@
 % Please edit documentation in R/ProgramModalSummary.R
 \name{gVis_Pie_ProgramCostSummary}
 \alias{gVis_Pie_ProgramCostSummary}
-\title{Function for making gVis Cost summary of Total Cost, Personnel, or NonPersonnel}
+\title{gVis_Pie_ProgramCostSummary}
 \usage{
 gVis_Pie_ProgramCostSummary(df, dataTitle = "Total Cost: ",
   labelvar = "Cost Type", numvar = "Cost",
