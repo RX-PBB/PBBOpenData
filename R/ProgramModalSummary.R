@@ -18,7 +18,7 @@
 #' showModal(ProgramModal(Modal_header=T,Modal_tabs=T,TotalCost=T,Positions=T,OperatingCosts=T))
 
 
-ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost=T,Positions=T,OperatingCosts=T,
+ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab=T,OperatingCosts_tab=T,
                        Program=input$chartdata_Program,
                        Desc=input$chartdata_Desc,
                        TotalCost=input$chartdata_TotalCost,
@@ -38,23 +38,23 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost=T,Positions=T,Opera
 
   }
 
-  if(TotalCost==T)(TotalCost<-tabPanel('Total Cost',htmlOutput("ProgramTotal_GvizPlot")))else(TotalCost<-NULL)
+  if(TotalCost_tab==T)(TotalCost_tab<-tabPanel('Total Cost',htmlOutput("ProgramTotal_GvizPlot")))else(TotalCost_tab<-NULL)
 
-  if(Positions==T){Positions<-tabPanel('Positions',
+  if(Positions_tab==T){Positions_tab<-tabPanel('Positions',
                      #uiOutput('PersonnelCosts_UI'),
                       htmlOutput("ProgramPersonnel_GvizPlot"),
                       rHandsontableOutput('ProgramPersonnel_hot')
-            )}else(Positions<-NULL)
+            )}else(Positions_tab<-NULL)
 
-  if(OperatingCosts==T){OperatingCosts<-tabPanel('Operating Costs',
+  if(OperatingCosts_tab==T){OperatingCosts_tab<-tabPanel('Operating Costs',
                      #uiOutput('NonPersonnelCosts_UI'),
                       htmlOutput("ProgramNonPersonnel_GvizPlot"),
                       rHandsontableOutput('ProgramNonPersonnel_hot')
-            )}else(OperatingCosts<-NULL)
+            )}else(OperatingCosts_tab<-NULL)
 
   if(Modal_tabs==T){
 
-    Modal_tabs<-tagList(tabsetPanel(TotalCost,Positions,OperatingCosts))
+    Modal_tabs<-tagList(tabsetPanel(TotalCost_tab,Positions_tab,OperatingCosts_tab))
 
   }else(Modal_tabs<-NULL)
 
