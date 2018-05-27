@@ -1,3 +1,16 @@
+#**************************************************
+#
+#  Functions for OpenData Program Summary Modal
+#
+#**************************************************
+
+
+#-------------------------------------------------
+#
+#  gVis Pie's
+#
+#-------------------------------------------------
+
 #' helper function for making data for gvis plots
 #'
 #' Sends email using mailR
