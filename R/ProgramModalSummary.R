@@ -124,6 +124,7 @@ rollup_gvisPie<-function(df,labelvar,numvar){
   #***************************************
   temp<-NULL
   df<-split(df,df[,labelvar])
+
   for(i in 1:length(df)){
 
     row<-data.frame(labelvar=df[[i]][1,labelvar],
@@ -150,6 +151,7 @@ rollup_gvisPie<-function(df,labelvar,numvar){
 #' rollup_gvisPie(df,labelvar='Cost Type',numvar='Cost')
 
 gVis_Pie_ProgramCostSummary<-function(df,dataTitle='Total Cost: ',labelvar='Cost Type',numvar='Cost',sliceVisibilityThreshold= NULL){
+       if(nrow(df)==0)(return(NULL))
 
        df<-rollup_gvisPie(df,labelvar = labelvar, numvar = numvar)
 
