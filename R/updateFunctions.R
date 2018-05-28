@@ -16,7 +16,7 @@
 #' update_Tabs(tabset=input$tabset,bpas='./www/config/roswell_bpas.json',results='./www/config/roswell_tabs.json')
 
 
-update_Tabs<-function(tabset,bpas,results){
+update_Tabs<-function(tabset,bpas,results,session){
 
   if (is.null(tabset)){
      data<-fromJSON(file=results)
