@@ -9,9 +9,15 @@
 #'
 #' Creates a modal summary of a program. You may select to only include a header summary or select what tabs to include.
 #' @param Modal_header Summary of data echo'd back from the csv setup file
+#' @param Modal_tabs Include summary of Total, Positions, Operating Costs
 #' @param TotalCost Pie chart of Personnel and NonPersonnel
 #' @param Positions Include Position Pie and Table
 #' @param OperatingCosts Include operating cost pie and table
+#' @param Program Program name from onClick function client side
+#' @param Desc Desc from onClick function client side
+#' @param description.HTML Use HTML in description
+#' @param TotalCost Total Cost from onClick function client side
+#' @param FTE FTE from onClick function client side
 #' @export
 #' @examples
 #' showModal(ProgramModal(Modal_header=T,Modal_tabs=F,TotalCost=T,Positions=T,OperatingCosts=T))
@@ -20,7 +26,7 @@
 
 ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab=T,OperatingCosts_tab=T,
                        Program=input$chartdata_Program,
-                       Desc=input$chartdata_Desc,
+                       Desc=input$chartdata_Desc,description.HTML=F,
                        TotalCost=input$chartdata_TotalCost,
                        FTE=input$chartdata_FTE){
 
@@ -29,8 +35,14 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab
     #if we include a tabset, put this break in.
     if(Modal_tabs==T)(rule<-hr())else(rule<-NULL)
 
+    if(description.HTML==T){
+      description<-p(strong(strong('Description: '),Desc))
+    }else{
+      description<-HTML(paste(strong('Description: '),Desc,sep=''))
+    }
+
     Modal_header<- tagList(
-          p(strong('Description: '),Desc),
+          description,
           p(strong('Total Cost: '),format(as.numeric(TotalCost),big.mark=',')),
           p(strong('FTE: '),FTE),
           rule

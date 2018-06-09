@@ -7,16 +7,29 @@
 ProgramModal(Modal_header = T, Modal_tabs = T, TotalCost_tab = T,
   Positions_tab = T, OperatingCosts_tab = T,
   Program = input$chartdata_Program, Desc = input$chartdata_Desc,
-  TotalCost = input$chartdata_TotalCost, FTE = input$chartdata_FTE)
+  description.HTML = F, TotalCost = input$chartdata_TotalCost,
+  FTE = input$chartdata_FTE)
 }
 \arguments{
 \item{Modal_header}{Summary of data echo'd back from the csv setup file}
 
+\item{Modal_tabs}{Include summary of Total, Positions, Operating Costs}
+
+\item{Program}{Program name from onClick function client side}
+
+\item{Desc}{Desc from onClick function client side}
+
+\item{description.HTML}{Use HTML in description}
+
 \item{TotalCost}{Pie chart of Personnel and NonPersonnel}
+
+\item{FTE}{FTE from onClick function client side}
 
 \item{Positions}{Include Position Pie and Table}
 
 \item{OperatingCosts}{Include operating cost pie and table}
+
+\item{TotalCost}{Total Cost from onClick function client side}
 }
 \description{
 Creates a modal summary of a program. You may select to only include a header summary or select what tabs to include.

@@ -4,7 +4,7 @@
 \alias{update_Tabs}
 \title{update_Tabs}
 \usage{
-update_Tabs(tabset, bpas, results)
+update_Tabs(tabset, bpas, results, session)
 }
 \arguments{
 \item{tabset}{input selector}
