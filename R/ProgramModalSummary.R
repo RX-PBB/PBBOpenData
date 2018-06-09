@@ -35,9 +35,10 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab
     #if we include a tabset, put this break in.
     if(Modal_tabs==T)(rule<-hr())else(rule<-NULL)
 
+    if(description.HTML==F){
+      description<-p(strong('Description: '),Desc)
+    }
     if(description.HTML==T){
-      description<-p(strong(strong('Description: '),Desc))
-    }else{
       description<-HTML(paste(strong('Description: '),Desc,sep=''))
     }
 
