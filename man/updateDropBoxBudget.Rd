@@ -22,5 +22,5 @@ updateDropBoxBudget(session, DropBox_dir, budget = input$budget_year,
 sends the tab data and treemap data to the client as well as updates the summary all data for program summary
 }
 \examples{
-updateDropBoxBudget(budget=input$budget_year,tab=input$tabset,DropBox_dir)
+updateDropBoxBudget(session,DropBox_dir,budget=input$budget_year,tab=input$tabset,values=values$SummaryAll)
 }
