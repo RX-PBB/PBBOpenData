@@ -62,7 +62,7 @@ getTabData<-function(DropBox_dir,tab=input$tabset,budget=input$budget_year){
 
 }
 
-#' updatebudget
+#' updateDropBoxBudget
 #'
 #' sends the tab data and treemap data to the client as well as updates the summary all data for program summary
 #' @param DropBox_dir the directory on dropbox for the organization

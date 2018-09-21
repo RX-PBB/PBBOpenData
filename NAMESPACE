@@ -2,8 +2,11 @@
 
 export(ProgramModal)
 export(gVis_Pie_ProgramCostSummary)
+export(getTabData)
+export(getTreeMapData)
 export(rhandson_ProgramCostSummary)
 export(rollup_gvisPie)
 export(submitFeedback)
 export(subset_SummaryAll)
+export(updateDropBoxBudget)
 export(update_Tabs)

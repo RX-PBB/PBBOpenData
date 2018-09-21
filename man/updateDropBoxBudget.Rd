@@ -2,7 +2,7 @@
 % Please edit documentation in R/DropBoxUpdate.R
 \name{updateDropBoxBudget}
 \alias{updateDropBoxBudget}
-\title{updatebudget}
+\title{updateDropBoxBudget}
 \usage{
 updateDropBoxBudget(budget = input$budget_year, tab = input$tabset,
   DropBox_dir)
