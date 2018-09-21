@@ -72,7 +72,7 @@ getTabData<-function(DropBox_dir,tab=input$tabset,budget=input$budget_year){
 #' @param values reactiveValue that stores the summary data
 #' @export
 #' @examples
-#' updateDropBoxBudget(budget=input$budget_year,tab=input$tabset,DropBox_dir)
+#' updateDropBoxBudget(session,DropBox_dir,budget=input$budget_year,tab=input$tabset,values=values$SummaryAll)
 
 updateDropBoxBudget<-function(session,DropBox_dir,budget=input$budget_year,tab=input$tabset,values=values$SummaryAll){
 
