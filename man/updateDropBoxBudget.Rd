@@ -4,15 +4,19 @@
 \alias{updateDropBoxBudget}
 \title{updateDropBoxBudget}
 \usage{
-updateDropBoxBudget(budget = input$budget_year, tab = input$tabset,
-  DropBox_dir)
+updateDropBoxBudget(session, DropBox_dir, budget = input$budget_year,
+  tab = input$tabset, values = values$SummaryAll)
 }
 \arguments{
+\item{session}{shiny server session variable}
+
+\item{DropBox_dir}{the directory on dropbox for the organization}
+
 \item{budget}{what budget to use, the csv file should be in a folder of the same name}
 
 \item{tab}{what tabset to use from our radio buttons, the config folder should have the tab files in json format ending in "_tabs.json"}
 
-\item{DropBox_dir}{the directory on dropbox for the organization}
+\item{values}{reactiveValue that stores the summary data}
 }
 \description{
 sends the tab data and treemap data to the client as well as updates the summary all data for program summary
