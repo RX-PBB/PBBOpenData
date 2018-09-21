@@ -65,14 +65,16 @@ getTabData<-function(DropBox_dir,tab=input$tabset,budget=input$budget_year){
 #' updateDropBoxBudget
 #'
 #' sends the tab data and treemap data to the client as well as updates the summary all data for program summary
+#' @param session shiny server session variable
 #' @param DropBox_dir the directory on dropbox for the organization
 #' @param tab what tabset to use from our radio buttons, the config folder should have the tab files in json format ending in "_tabs.json"
 #' @param budget what budget to use, the csv file should be in a folder of the same name
+#' @param values reactiveValue that stores the summary data
 #' @export
 #' @examples
 #' updateDropBoxBudget(budget=input$budget_year,tab=input$tabset,DropBox_dir)
 
-updateDropBoxBudget<-function(session,DropBox_dir,budget=input$budget_year,tab=input$tabset){
+updateDropBoxBudget<-function(session,DropBox_dir,budget=input$budget_year,tab=input$tabset,values=values$SummaryAll){
 
       #Get the tree data
       Treedata<-getTreeMapData(DropBox_dir,budget=budget,data_treemap="/data_treemap.csv")
@@ -98,7 +100,7 @@ updateDropBoxBudget<-function(session,DropBox_dir,budget=input$budget_year,tab=i
       SummaryAll$Program<-gsub(":"," - ",SummaryAll$Program)
       SummaryAll$Program<-gsub("!",".",SummaryAll$Program)
 
-      values$SummaryAll<-SummaryAll
+      values<-SummaryAll
 
       #remove the files!
       if(file.exists(filepath))(file.remove(filepath))
