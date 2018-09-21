@@ -74,7 +74,7 @@ getTabData<-function(DropBox_dir,tab=input$tabset,budget=input$budget_year){
 #' @examples
 #' updateDropBoxBudget(session,DropBox_dir,budget=input$budget_year,tab=input$tabset,values=values$SummaryAll)
 
-updateDropBoxBudget<-function(session,DropBox_dir,budget=input$budget_year,tab=input$tabset,values=values$SummaryAll){
+updateDropBoxBudget<-function(session,DropBox_dir,budget=input$budget_year,tab=input$tabset){
 
       #Get the tree data
       Treedata<-getTreeMapData(DropBox_dir,budget=budget,data_treemap="/data_treemap.csv")
@@ -100,10 +100,12 @@ updateDropBoxBudget<-function(session,DropBox_dir,budget=input$budget_year,tab=i
       SummaryAll$Program<-gsub(":"," - ",SummaryAll$Program)
       SummaryAll$Program<-gsub("!",".",SummaryAll$Program)
 
-      values<-SummaryAll
+
 
       #remove the files!
       if(file.exists(filepath))(file.remove(filepath))
+
+      return(SummaryAll)
 
 }
 
