@@ -5,6 +5,133 @@
 #**************************************************
 
 
+#' makeOpenPBBData_Summaries
+#'
+#' makes two summary files outputed as a list. csv is the treemap summary. summaryall is the data for the program level summary
+#' @param db_name_new name of org database
+#' @param db_host_new database host
+#' @param BudgetID Budget ID we want to summarize
+#' @param CostModelID Costmodel ID of the PBB accounting structure
+#' @export
+#' @examples
+#' makeOpenPBBData_Summaries(db_name_new,db_host_new,BudgetID,CostModelID)
+
+
+
+
+makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID){
+
+
+    con <- dbConnect(MySQL(),
+                      user="mtseman",
+                      password="cree1234",
+                      host=db_host_new,
+                      dbname=db_name_new)
+
+
+          df<-RadSlicer_OpenData(con,BudgetID,CostModelID)
+          df<-df$AcctSummary
+          df[,'FTE.Alloc']<-df[,'NumberOfItems']*df[,'PercentAppliedToProg']
+
+          statement<-paste("SELECT * FROM BudgetInfo;",sep='')
+          BudgetInfo<-dbGetQuery(conn=con,statement=statement)
+
+          statement<-paste("SELECT * FROM ResultSetup;",sep='')
+          ResultSetup<-dbGetQuery(conn=con,statement=statement)
+
+          statement<-paste("SELECT * FROM CostModelInfo WHERE CostModelName='PBB';",sep='')
+          CostModelInfo<-dbGetQuery(conn=con,statement=statement)
+
+          statement<-paste("SELECT * FROM ProgInfo;",sep='')
+          ProgInfo<-dbGetQuery(conn=con,statement=statement)
+
+    dbDisconnect(con)
+
+    Div1<-CostModelInfo$Div1Name
+    Div2<-CostModelInfo$Div2Name
+
+    colnames(df)[colnames(df)==Div1]<-'Acct_Department'
+    colnames(df)[colnames(df)==Div2]<-'Acct_Division'
+
+    #Make Div1/Div2 consistent with open data code for "Department" "Division"
+    colnames(ProgInfo)[colnames(ProgInfo)=='ProgDept']<-'Department'
+    colnames(ProgInfo)[colnames(ProgInfo)=='ProgDiv']<-'Division'
+    colnames(ProgInfo)[colnames(ProgInfo)=='ProgDescription']<-'Description'
+
+    #clean "none's"
+    ProgInfo[ProgInfo$Division=='none','Division']<-ProgInfo[ProgInfo$Division=='none','Department']
+
+    nrow(df)
+    df<-merge(df,ProgInfo[,c('ProgID','Department','Division','Description','ProgGroup')],by='ProgID')
+    nrow(df)
+
+    bpas<-ResultSetup[ResultSetup$ResultType=='BPA','ResultAbbr']
+    community<-ResultSetup[ResultSetup$ResultType=='Community','ResultAbbr']
+    governance<-ResultSetup[ResultSetup$ResultType=='Governance','ResultAbbr']
+
+    temp<-NULL
+    Depts<-split(df,df$Department)
+    for (i in 1:length(Depts)){
+     Divs<-Depts[[i]]
+     Divs<-split(Divs,Divs$Division)
+        for (j in 1:length(Divs)){
+          Programs<-Divs[[j]]
+          Programs<-split(Programs,Programs$ProgID)
+          for (k in 1:length(Programs)){
+            prog<-Programs[[k]]
+
+            row<-data.frame(
+              Year=prog[1,'Year'],
+              Type=prog[1,'ServiceType'],
+              Department=prog[1,'Department'],
+              Division=prog[1,'Division'],
+              ProgID=prog[1,'ProgID'],
+              Program=prog[1,'ProgName'],
+              Quartile=prog[1,'Quartile'],
+              Final_Score=prog[1,'FinalScore'],
+              TotalCost=sum(prog[prog$AcctType=='Expense','ProgramCost'],na.rm = T),
+              FTE=sum(prog[prog$`Cost Type`=='Personnel','FTE.Alloc'],na.rm = T),
+              ProgramRevenue=sum(prog[prog$AcctType=='Revenue','ProgramCost'],na.rm = T),
+              DirectCost=sum(prog[prog$AcctType=='Expense','ProgramCost'],na.rm = T),
+              stringsAsFactors=F)
+
+            for(x in 1:length(bpas)){
+              row<-cbind(row,prog[1,bpas[x]])
+              colnames(row)[length(row)]<-bpas[x]
+            }
+
+            for(x in 1:length(community)){
+              row<-cbind(row,prog[1,community[x]])
+              colnames(row)[length(row)]<-community[x]
+            }
+
+            for(x in 1:length(governance)){
+              row<-cbind(row,prog[1,governance[x]])
+              colnames(row)[length(row)]<-governance[x]
+            }
+
+            row<-cbind(row,prog[1,'Description'])
+            colnames(row)[length(row)]<-'Description'
+
+            temp<-rbind(temp,row)
+          }
+
+        }
+    }
+
+
+    #write.csv(temp,'data_treemap.csv')
+    #write.csv(df[df$AcctType=='Expense',],'summaryall.csv')
+
+
+    data<-list()
+    data$csv<-temp
+    data$summaryall<-df[df$AcctType=='Expense',]
+
+    return(data)
+
+}
+
 
 
 #' RadSlicer_OpenData
