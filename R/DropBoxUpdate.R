@@ -72,7 +72,7 @@ getTabData<-function(DropBox_dir,tab=input$tabset,budget=input$budget_year){
 #' @examples
 #' updateDropBoxBudget(budget=input$budget_year,tab=input$tabset,DropBox_dir)
 
-updateDropBoxBudget<-function(budget=input$budget_year,tab=input$tabset,DropBox_dir){
+updateDropBoxBudget<-function(session,DropBox_dir,budget=input$budget_year,tab=input$tabset){
 
       #Get the tree data
       Treedata<-getTreeMapData(DropBox_dir,budget=budget,data_treemap="/data_treemap.csv")
