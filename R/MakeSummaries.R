@@ -17,8 +17,6 @@
 #' makeOpenPBBData_Summaries(db_name_new,db_host_new,BudgetID,CostModelID)
 
 
-
-
 makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID){
 
 
@@ -28,6 +26,8 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
                       host=db_host_new,
                       dbname=db_name_new)
 
+     print('mike')
+     print(con)
 
           df<-RadSlicer_OpenData(con,BudgetID,CostModelID)
           df<-df$AcctSummary
@@ -119,14 +119,37 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
         }
     }
 
-
     #write.csv(temp,'data_treemap.csv')
     #write.csv(df[df$AcctType=='Expense',],'summaryall.csv')
+
+    summaryall<-df[df$AcctType=='Expense',]
+    summaryall[,'Fixed']<-0
+    summaryall[summaryall$Scored=='Prioritized','Fixed']<-1
+    summaryall[summaryall$Scored!='Prioritized','Fixed']<-0
+    summaryall[,'Type']<-summaryall[,'ServiceType']
+
+    summaryall[,'Group']<-summaryall[,'ProgGroup']
+    summaryall[,'Program']<-summaryall[,'ProgName']
+    summaryall[,'Final Score']<-summaryall[,'FinalScore']
+    summaryall[,'Prg#']<-summaryall[,'ProgID']
+    summaryall[,'Cost Type']<-summaryall[,'AcctType']
+    summaryall[,'Acct_Fund']<-summaryall[,'Fund']
+    summaryall[,'AcctNumber']<-summaryall[,'AcctCode']
+
+    summaryall[,'Cost/Position']<-summaryall[,'obj_level_01']
+    summaryall[,'ID#']<-summaryall[,'obj_level_02']
+    summaryall[,'Cost']<-summaryall[,'ProgramCost']
+    summaryall[,'FTE']<-summaryall[,'FTE.Alloc']
+    summaryall[,'Allocation']<-summaryall[,'PercentAppliedToProg']
+
+    summaryall<-summaryall[c('Fixed','Type','Fund','Department','Division','Group','Program','Final Score','Quartile','Prg#','Cost Type',
+                             'Acct_Fund','Acct_Department','Acct_Division','AcctNumber','Cost/Position','ID#','Cost','FTE','Allocation',bpas,community,governance,
+                             'AcctType','ItemMeta1','NumberOfItems','TotalCost','ProgNum','Scored','Year','RXCommentID','ProgDescription')]
 
 
     data<-list()
     data$csv<-temp
-    data$summaryall<-df[df$AcctType=='Expense',]
+    data$summaryall
 
     return(data)
 
@@ -142,14 +165,12 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
 
 RadSlicer_OpenData<-function(con,BudgetID,CostModelID){
-
-
-
-   AcctSummary<-PullAllocations_OpenData(conexists=con,BudgetID=BudgetID,CostModelID=CostModelID)
+   print('here')
+   AcctSummary<-PullAllocations_OpenData(con,BudgetID=BudgetID,CostModelID=CostModelID)
 
 
    #df<-PullFinalScores(conexists=con,All.Programs=T)
-   df<-PullFinalScores_OpenData(conexists=con,BudgetID=BudgetID,CostModelID=CostModelID)
+   df<-PullFinalScores_OpenData(con,BudgetID=BudgetID,CostModelID=CostModelID)
    FinalScores<-df
 
    statement<-paste("SELECT ResultType, Scored FROM ResultTypes;",sep='')
@@ -337,10 +358,10 @@ create_IDstring<-function(numeric_vector){
 #' @param con RMySQL connection
 #' @export
 
-PullAllocations_OpenData<-function(conexists=con,BudgetID,CostModelID){
+PullAllocations_OpenData<-function(con,BudgetID,CostModelID){
 
+      print('here 2')
 
-      #browser()
       statement<-paste("SELECT Obj1ID, ObjType,Obj1,Obj1Code FROM Obj1Info WHERE CostModelID='",CostModelID,"';",sep='')
       Obj1<-dbGetQuery(con,statement)
       if(nrow(Obj1)>0)(colnames(Obj1)[2]<-'Cost Type')
@@ -427,7 +448,7 @@ PullAllocations_OpenData<-function(conexists=con,BudgetID,CostModelID){
      statement<-paste("SELECT * FROM PBBComments;",sep='')
      PBBComments<-dbGetQuery(con,statement)
 
-     if(is.null(conexists))(dbDisconnect(con))
+
 
      #browser()
      if(!is.null(Alloc)){
@@ -505,14 +526,10 @@ PullAllocations_OpenData<-function(conexists=con,BudgetID,CostModelID){
 #' PullAllocations_OpenData
 #'
 #' Helper Function
-#' @param conexists RMySQL connection
+#' @param con RMySQL connection
 #' @export
 
-PullFinalScores_OpenData<-function(conexists=NULL,BudgetID,CostModelID){
-
-  con<-conexists
-  if(is.null(con))(con<-getClientCon())
-
+PullFinalScores_OpenData<-function(con,BudgetID,CostModelID){
 
 
      #browser()
@@ -544,7 +561,6 @@ PullFinalScores_OpenData<-function(conexists=NULL,BudgetID,CostModelID){
 
          }
 
-     if(is.null(conexists))(dbDisconnect(con))
 
      #Combine Scores with Results - update the scores with ResultType, Abbr
      PeerReview<-merge(Scores,AllResults[c('ResultID','ResultAbbr','ResultType','Weight')],by='ResultID')
