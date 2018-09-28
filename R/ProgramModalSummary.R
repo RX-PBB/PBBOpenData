@@ -45,7 +45,7 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab
     Modal_header<- tagList(
           description,
           p(strong('Total Cost: '),format(as.numeric(TotalCost),big.mark=',')),
-          p(strong('FTE: '),round(FTE,digits=2)),
+          p(strong('FTE: '),round(as.numeric(FTE),digits=2)),
           rule
     )
 
