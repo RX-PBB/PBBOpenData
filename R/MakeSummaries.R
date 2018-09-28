@@ -16,6 +16,14 @@
 #' @examples
 #' makeOpenPBBData_Summaries(db_name_new,db_host_new,BudgetID,CostModelID)
 
+library(RMySQL)
+library(reshape2)
+library(PBBOpenData)
+
+db_name_new<-'RX_KenmoreWA'
+db_host_new='ec2-52-11-250-69.us-west-2.compute.amazonaws.com'
+BudgetID<-3
+CostModelID<-1
 
 makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID){
 
@@ -149,7 +157,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
     data<-list()
     data$csv<-temp
-    data$summaryall
+    data$summaryall<-summaryall
 
     return(data)
 
