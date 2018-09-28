@@ -131,7 +131,6 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     summaryall[,'Program']<-summaryall[,'ProgName']
     summaryall[,'Final Score']<-summaryall[,'FinalScore']
     summaryall[,'Prg#']<-summaryall[,'ProgID']
-    summaryall[,'Cost Type']<-summaryall[,'AcctType']
     summaryall[,'Acct_Fund']<-summaryall[,'Fund']
     summaryall[,'AcctNumber']<-summaryall[,'AcctCode']
 
