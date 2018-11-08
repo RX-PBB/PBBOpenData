@@ -4,7 +4,8 @@
 \alias{getTabData}
 \title{getTabData}
 \usage{
-getTabData(DropBox_dir, tab = input$tabset, budget = input$budget_year)
+getTabData(DropBox_dir, local_dir, tab = input$tabset,
+  budget = input$budget_year, use_DropBox = T)
 }
 \arguments{
 \item{DropBox_dir}{the directory on dropbox for the organization}

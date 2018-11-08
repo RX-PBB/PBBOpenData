@@ -4,7 +4,7 @@
 \alias{PullAllocations_OpenData}
 \title{PullAllocations_OpenData}
 \usage{
-PullAllocations_OpenData(conexists = con, BudgetID, CostModelID)
+PullAllocations_OpenData(con, BudgetID, CostModelID)
 }
 \arguments{
 \item{con}{RMySQL connection}

@@ -4,10 +4,10 @@
 \alias{PullFinalScores_OpenData}
 \title{PullAllocations_OpenData}
 \usage{
-PullFinalScores_OpenData(conexists = NULL, BudgetID, CostModelID)
+PullFinalScores_OpenData(con, BudgetID, CostModelID)
 }
 \arguments{
-\item{conexists}{RMySQL connection}
+\item{con}{RMySQL connection}
 }
 \description{
 Helper Function
