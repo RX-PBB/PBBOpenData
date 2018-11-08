@@ -4,7 +4,7 @@
 #
 #**************************************************
 
-#' getTreeMapData_CSV
+#' getTreeMapCSV
 #'
 #' reads the csv file for the treemap from dropbox
 #' @param DropBox_dir the directory on dropbox for the organization
@@ -13,10 +13,10 @@
 #' @param data_treemap filename to use for the csv data
 #' @export
 #' @examples
-#' getTreeMapData_CSV(DropBox_dir,budget=budget,data_treemap="/data_treemap.csv")
+#' getTreeMapCSV(DropBox_dir,budget=budget,data_treemap="/data_treemap.csv")
 
 
-getTreeMapData_CSV<-function(DropBox_dir,local_dir,budget=input$budget,tabset=input$tabset,data_treemap="/data_treemap.csv",use_DropBox=T){
+getTreeMapCSV<-function(DropBox_dir,local_dir,budget=input$budget,tabset=input$tabset,data_treemap="/data_treemap.csv",use_DropBox=T){
 
   if(use_DropBox==T){
     df<-drop_read_csv(paste0(DropBox_dir,budget,data_treemap))
@@ -28,88 +28,44 @@ getTreeMapData_CSV<-function(DropBox_dir,local_dir,budget=input$budget,tabset=in
   }
 
   return(df)
-  
+
 }
 
 
-#' getTreeMapData
+#' makeTreeMapData
 #'
 #' reads the csv file for the treemap from dropbox and converts to JSON
-#' @param DropBox_dir the directory on dropbox for the organization
-#' @param budget what budget to use, the csv file should be in a folder of the same name
-#' @param tabset path to results tabs json file
-#' @param data_treemap filename to use for the csv data
+#' @param df the csv file to convert to json for the tree map
+#' @param Tabdata the json tab data we send along with tree map data to update the tab plus tree map widget
 #' @export
 #' @examples
 #' getTreeMapData(DropBox_dir,budget=budget,data_treemap="/data_treemap.csv")
 
 
-getTreeMapData<-function(DropBox_dir,local_dir,budget=input$budget,tabset=input$tabset,data_treemap="/data_treemap.csv",use_DropBox=T){
+makeTreeMapData<-function(df,Tabdata,TabIndex=0){
 
-  # if(use_DropBox==T){
-  #   df<-drop_read_csv(paste0(DropBox_dir,budget,data_treemap))
-  #   colnames(df)[5]<-'#'
-  # }
-  # if(use_DropBox==F){
-  #   df<-read.csv(paste0(local_dir,budget,data_treemap),header=T)
-  #   colnames(df)[5]<-'#'
-  # }
-  
-  df<-getTreeMapData_CSV(DropBox_dir,local_dir,budget=budget,tabset=tabset,data_treemap,use_DropBox=use_DropBox)
-
-    
-  data<-list()
+  Treedata<-list()
   for(i in 1:nrow(df)){
 
-      data[[i]]<-list()
+      Treedata[[i]]<-list()
       for(j in 1:length(colnames(df))){
-        data[[i]][colnames(df)[j]]<-iconv(df[i,j],to="utf-8")
+        Treedata[[i]][colnames(df)[j]]<-iconv(df[i,j],to="utf-8")
       }
 
   }
 
-  
+  data<-list()
+  data$TabData<-Tabdata
+  data$TreeData<-Treedata
+  data$TabIndex<-TabIndex
+
 
   return(data)
 
 }
 
 
-#' getTabData
-#'
-#' reads the json file for the tabset of interest
-#' @param DropBox_dir the directory on dropbox for the organization
-#' @param tab what tabset to use from our radio buttons, the config folder should have the tab files in json format ending in "_tabs.json"
-#' @param budget what budget to use, the csv file should be in a folder of the same name
-#' @export
-#' @examples
-#' getTabData(DropBox_dir,tab=tab,budget=budget)
-
-
-getTabData<-function(DropBox_dir,local_dir,tab=input$tabset,budget=input$budget_year,use_DropBox=T){
-
-  if(use_DropBox==T){
-
-      filepath<-file.path(tempdir(),'tabs.json')
-      drop_download(path=paste0(DropBox_dir,budget,'/config/',tab,"_tabs.json"),local_path=filepath,overwrite=T)
-      json<-jsonlite::fromJSON(filepath)
-      if(file.exists(filepath))(file.remove(filepath))
-
-  }
-
-  if(use_DropBox==F){
-
-      json<-jsonlite::fromJSON(paste0(local_dir,budget,"/config/",tab,"_tabs.json"))
-
-  }
-  #data<-jsonlite::toJSON(data)
-
-
-  return(json)
-
-}
-
-#' updateDropBoxBudget
+#' getSummaryAll
 #'
 #' sends the tab data and treemap data to the client as well as updates the summary all data for program summary
 #' @param session shiny server session variable
@@ -119,23 +75,9 @@ getTabData<-function(DropBox_dir,local_dir,tab=input$tabset,budget=input$budget_
 #' @param values reactiveValue that stores the summary data
 #' @export
 #' @examples
-#' updateDropBoxBudget(session,DropBox_dir,budget=input$budget_year,tab=input$tabset,values=values$SummaryAll)
+#' getSummaryAll(DropBox_dir,local_dir,budget=input$budget_year,tab=input$tabset,use_DropBox=T)
 
-updateDropBoxBudget<-function(session,DropBox_dir,local_dir,budget=input$budget_year,tab=input$tabset,use_DropBox=T){
-
-      #Get the tree data
-      Treedata<-getTreeMapData(DropBox_dir,local_dir,budget=budget,data_treemap="/data_treemap.csv",use_DropBox=use_DropBox)
-
-      #Get the tab data
-      Tabdata<-getTabData(DropBox_dir,local_dir,tab=tab,budget=budget,use_DropBox=use_DropBox)
-
-      data<-list()
-      data$TabData<-Tabdata
-      data$TreeData<-Treedata
-
-      #Send both tree data and tabset data to the client
-      data<-jsonlite::toJSON(data)
-      session$sendCustomMessage(type="updatebudget",data)
+getSummaryAll<-function(DropBox_dir,local_dir,budget=input$budget_year,tab=input$tabset,use_DropBox=T){
 
       #Get the summaryall data for this budget - we use this for program details at the bottom level
       if(use_DropBox==T){
@@ -169,4 +111,47 @@ updateDropBoxBudget<-function(session,DropBox_dir,local_dir,budget=input$budget_
       return(SummaryAll)
 
 }
+
+#' updateTreeMap_Tab_SummaryAll
+#'
+#' sends the tab data and treemap data to the client as well as updates the summary all data for program summary
+#' @param session shiny server session variable
+#' @param DropBox_dir the directory on dropbox for the organization
+#' @param local_dir the local directory where budgets are kept
+#' @param budget what budget to use, the csv file should be in a folder of the same name
+#' @param tab what tabset to use from our radio buttons, the config folder should have the tab files in json format ending in "_tabs.json"
+#' @param values reactiveValue that stores the summary data
+#' @export
+#' @examples
+#' getSummaryAll(DropBox_dir,local_dir,budget=input$budget_year,tab=input$tabset,use_DropBox=T)
+
+updateTreeMap_Tab_SummaryAll<-function(session,DropBox_dir,local_dir,budget,tabset,TabIndex,data_treemap="/data_treemap.csv",use_DropBox=F){
+
+         #Get the CSV and Tab data and update the plot
+        TreeMapCSV<-getTreeMapCSV(DropBox_dir,local_dir,budget,tabset,data_treemap="/data_treemap.csv",use_DropBox)
+
+        TabsJSON<-getTabData(DropBox_dir,local_dir,tab=tabset,budget,use_DropBox)
+
+        #Send both tree data and tabset data to the client
+        data<-makeTreeMapData(df=TreeMapCSV,Tabdata=TabsJSON,TabIndex=TabIndex)
+        data<-jsonlite::toJSON(data)
+        session$sendCustomMessage(type="updatebudget",data)
+
+
+      #Get the Summary Data
+        SummaryAll<-getSummaryAll(DropBox_dir,local_dir,budget,tabset,use_DropBox)
+
+        Budget_Tab<-paste0(budget,"_",tabset)
+
+        values<-list()
+        values$TreeMapCSV<-TreeMapCSV
+        values$TabsJSON<-TabsJSON
+        values$SummaryAll<-SummaryAll
+        values$Budget_Tab<-Budget_Tab
+
+        return(values)
+
+}
+
+
 
