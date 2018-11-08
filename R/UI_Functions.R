@@ -12,7 +12,7 @@
 #' @param db_host_new database host
 #' @export
 #' @examples
-#' head(title="PBB",favicon="favicon.ico")
+#' page_head(title="PBB",favicon="favicon.ico")
 
 page_head<-function(title="PBB",favicon="favicon.ico"){
   tags$head(
@@ -66,7 +66,7 @@ page_head<-function(title="PBB",favicon="favicon.ico"){
 #' @param tabs.height height of tab widget
 #' @export
 #' @examples
-#' head(title="PBB",favicon="favicon.ico")
+#' app_header(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225)
 
 app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225){
 
@@ -93,4 +93,42 @@ app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=N
   )
 
 }
+
+#' app_header
+#'
+#' Sets the UI of charts for our app across a set of tabs
+#' @export
+#' @examples
+#' app_charts()
+
+
+app_charts<-function(){
+
+  tagList(
+      fluidRow(column(4,selectInput('tabset','Select a Tabset',choices='loading',width='100%')),
+               column(4,selectInput('budget_year','Select a Budget',choices='loading',width='100%')),
+               column(4,selectInput('department','Select a Department',choices='All Departments',width='100%'))),
+
+
+      tabsetPanel(id="chart_tabs",
+
+              tabPanel('TreePlot',
+                       h4(em("Click into the boxes below for more detail, you can click down to view details on Departments, Divisions, and Programs. Click \"Overall\" to return to the top.")),
+
+                       tags$div(id="treemap", style="width:1100px; height:700px; overflow:hidden")
+              ),
+              tabPanel("Table",
+                       br(),
+
+                       fluidRow(column(12,DT::dataTableOutput('ProgramResultsTable'))),
+                        tags$script("$(document).on('click', '#ProgramResultsTable button', function () {
+                        Shiny.onInputChange('lastClickId',this.id);
+                        Shiny.onInputChange('lastClick', Math.random())});")
+              )
+      )
+  )
+
+
+}
+
 

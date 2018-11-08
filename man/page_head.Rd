@@ -15,5 +15,5 @@ page_head(title = "PBB", favicon = "favicon.ico")
 loads libraries and sets page title and favicon
 }
 \examples{
-head(title="PBB",favicon="favicon.ico")
+page_head(title="PBB",favicon="favicon.ico")
 }
