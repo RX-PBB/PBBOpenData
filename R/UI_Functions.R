@@ -5,7 +5,7 @@
 #**************************************************
 
 
-#' head
+#' page_head
 #'
 #' loads libraries and sets page title and favicon
 #' @param title pAGE title
@@ -14,7 +14,7 @@
 #' @examples
 #' head(title="PBB",favicon="favicon.ico")
 
-head<-function(title="PBB",favicon="favicon.ico"){
+page_head<-function(title="PBB",favicon="favicon.ico"){
   tags$head(
     HTML(paste0('
         <meta charset="UTF-8">
