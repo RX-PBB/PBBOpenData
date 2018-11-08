@@ -54,7 +54,7 @@ head<-function(title="PBB",favicon="favicon.ico"){
 }
 
 
-#' app1
+#' app_header
 #'
 #' Does the layout of the tabs and loads organization header image. Also set some locations of our info modal and optional org logo
 #' @param header page header image
@@ -68,7 +68,7 @@ head<-function(title="PBB",favicon="favicon.ico"){
 #' @examples
 #' head(title="PBB",favicon="favicon.ico")
 
-app1<-function(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225){
+app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225){
 
   tagList(
 
