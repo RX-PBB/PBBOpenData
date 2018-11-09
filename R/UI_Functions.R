@@ -148,20 +148,18 @@ app_charts<-function(){
 app_footer<-function(logo,logo.top_margin=20,height=205,background_color="#eee",rx_logo='resourcex_logo.png',rx_logo.top_margin=35,copyright="2018 Copyright City of"){
 
   tagList(
-    tags$div(id='rx-footer',style=paste0("width:1100px; height:",height,"px; background-color:",background_color,";margin-top:10px;")),
+    tags$div(id='rx-footer',style=paste0("width:1100px; height:",height,"px; background-color:",background_color,";margin-top:10px;"),
 
-    HTML(paste0("<center><img src='./assets/",logo,"' style='margin-top:",logo.top_margin,"px;'></center>")),
+      HTML(paste0("<center><img src='./assets/",logo,"' style='margin-top:",logo.top_margin,"px;'></center>")),
 
-    tags$div(style="width:1100px; display:inline-block;",
+      tags$div(style="width:1100px; display:inline-block;",
 
-        HTML(paste0("<div class='col-sm-6' align='center' style='margin-top:",rx_logo.top_margin,"px;'><em><p class='rx-footer'>&copy; ",copyright,"</p></em> </div>")),
-        HTML(paste0("<div class='col-sm-6' align='center' style='margin-top:",rx_logo.top_margin,"px;'><em><p style='display:inline;'>Powered by:&nbsp;&nbsp;</p></em><a href='https://www.resourcex.net/blog' target='_blank'><img src='./assets/",rx_logo,"'> </a></div>"))
+          HTML(paste0("<div class='col-sm-6' align='center' style='margin-top:",rx_logo.top_margin,"px;'><em><p class='rx-footer'>&copy; ",copyright,"</p></em> </div>")),
+          HTML(paste0("<div class='col-sm-6' align='center' style='margin-top:",rx_logo.top_margin,"px;'><em><p style='display:inline;'>Powered by:&nbsp;&nbsp;</p></em><a href='https://www.resourcex.net/blog' target='_blank'><img src='./assets/",rx_logo,"'> </a></div>"))
 
+      )
     )
-
-
   )
-
 
 }
 
