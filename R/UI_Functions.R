@@ -5,7 +5,7 @@
 #**************************************************
 
 
-#' page_head
+#' app_head
 #'
 #' loads libraries and sets page title and favicon
 #' @param title pAGE title
@@ -14,7 +14,7 @@
 #' @examples
 #' page_head(title="PBB",favicon="favicon.ico")
 
-page_head<-function(title="PBB",favicon="favicon.ico"){
+app_head<-function(title="PBB",favicon="favicon.ico"){
 
     HTML(paste0('
         <meta charset="UTF-8">
@@ -54,16 +54,16 @@ page_head<-function(title="PBB",favicon="favicon.ico"){
 }
 
 
-#' page_spinner
+#' app_spinner
 #'
 #' put this in the head funtion to use a busy spinner. USees gif file saved in assets
 #' @param spinner spinner.gif file saved in assets
 #' @export
 #' @examples
-#' page_spinner(spinner='spin4.gif')
+#' app_spinner(spinner='spin4.gif')
 #'
 #'
-page_spinner<-function(spinner='spin4.gif'){
+app_spinner<-function(spinner='spin4.gif'){
    tagList(
           useShinyjs(),
 
