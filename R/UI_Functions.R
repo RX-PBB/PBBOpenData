@@ -131,6 +131,67 @@ app_charts<-function(){
 
 }
 
+#' app_about
+#'
+#' Does the layout of the about section
+#' @param about.link A link to their page, typically finance or city manager or maybe they have a PBB page
+#' @param about.who About who...
+#' @param about.text html of some paragraphs on why PBB
+#' @export
+#' @examples
+#' app_about(about.link,about.who,about.text)
+
+
+app_about<-function(about.link,about.who,about.text){
+
+  tagList(
+    column(6,
+           h3(style='margin-top:5px;',tags$a(href=about.link,target="_blank",strong("About ",about.who," Priority Based Budgeting"))),
+           h4(style='margin-top:5px;',
+              HTML(about.text)
+           )
+    )
+  )
+
+}
+
+#' app_feedback
+#'
+#' Does the feedback layout
+#' @export
+#' @examples
+#' app_feedback()
+
+app_feedback<-function(){
+
+  tagList(
+    column(6,
+       HTML('
+        <h3 style="margin-top:5px;"><strong>Feedback</strong></h3>
+
+        <h4 style="margin-top:5px;">We want to hear from you </h4>
+
+        <div class="form-group shiny-input-container" style="width: 500px;">
+            <input id="name" type="text" class="form-control" value="Name"/>
+        </div>
+
+        <div class="form-group shiny-input-container" style="width: 500px;">
+            <input id="email" type="text" class="form-control" value="Email"/>
+        </div>
+
+        <div class="form-group shiny-input-container">
+
+              <textarea id="comment" rows="4" cols="65">&nbsp;&nbsp; Comments and Suggestions</textarea>
+        </div>
+
+          <button id="submit_feedback" type="button" class="btn btn-info action-button">Submit</button>
+
+        </div>'
+
+    )))
+
+}
+
 #' app_footer
 #'
 #' Does the layout of the tabs and loads organization header image. Also set some locations of our info modal and optional org logo
@@ -143,12 +204,13 @@ app_charts<-function(){
 #' @param copyright copyright text
 #' @export
 #' @examples
-#' app_header(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225)
+#' app_footer(logo,logo.top_margin=20,height=205,background_color="#eee",rx_logo='resourcex_logo.png',rx_logo.top_margin=35,copyright="2018 Copyright City of")
 
 app_footer<-function(logo,logo.top_margin=20,height=205,background_color="#eee",rx_logo='resourcex_logo.png',rx_logo.top_margin=35,copyright="2018 Copyright City of"){
 
   tagList(
-    tags$div(id='rx-footer',style=paste0("width:1100px; height:",height,"px; background-color:",background_color,";margin-top:10px;"),
+    tags$div(style='margin-top:10px;'),
+    tags$div(id='rx-footer',style=paste0("width:1100px; height:",height,"px; background-color:",background_color,";margin:0px auto;"),
 
       HTML(paste0("<center><img src='./assets/",logo,"' style='margin-top:",logo.top_margin,"px;'></center>")),
 
