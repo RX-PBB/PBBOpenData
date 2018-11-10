@@ -15,7 +15,7 @@
 #' page_head(title="PBB",favicon="favicon.ico")
 
 page_head<-function(title="PBB",favicon="favicon.ico"){
-  tags$head(
+
     HTML(paste0('
         <meta charset="UTF-8">
         <title>',title,'</title>
@@ -50,7 +50,7 @@ page_head<-function(title="PBB",favicon="favicon.ico"){
         <script src="scripts/TabControl.js"></script>
         <script src="scripts/TreeMap.js"></script>
        '))
-  )
+
 }
 
 
