@@ -195,7 +195,10 @@ app_about<-function(about.link,about.who,about.text){
            h3(style='margin-top:5px;',tags$a(href=about.link,target="_blank",strong("About ",about.who," Priority Based Budgeting"))),
            h4(style='margin-top:5px;',
               HTML(about.text)
-           )
+           ),
+          HTML("<h4  style='font-weight: 800;cursor: pointer;' id='info2'>
+        <em>The visualization above reflects the data from the cost of the city's services, and how they align with our strategic goals for the community. <font style='color: #1e3ff4;'>Click for more info.</font></em>
+        </h4>")
     )
   )
 
