@@ -54,6 +54,52 @@ page_head<-function(title="PBB",favicon="favicon.ico"){
 }
 
 
+#' page_spinner
+#'
+#' put this in the head funtion to use a busy spinner. USees gif file saved in assets
+#' @param spinner spinner.gif file saved in assets
+#' @export
+#' @examples
+#' page_spinner(spinner='spin4.gif')
+#'
+#'
+page_spinner<-function(spinner='spin4.gif'){
+   tagList(
+          useShinyjs(),
+
+         shinyjs::extendShinyjs(script="www/scripts/shinyjs-funcs.js",functions=c('init')),
+        #
+        tags$style('
+          #rx-busy-overlay {
+            height: 100%;
+            width: 100%;
+            opacity: 0.7;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: #ecf0f5;
+            display: none;
+            z-index: 2000;
+            text-align: center;
+            padding-top: 50px;
+            font-size: 50px;
+            color: #555555;
+          }
+
+          #rx-busy-overlay.px-rbb-busy-long {
+            display: block;
+          }
+        '),
+
+        div(id = "rx-busy-overlay",
+              #"Loading. Please wait...",
+              img(src = paste0("assets/",spinner), height = "100px")
+
+        )
+   )
+}
+
+
 #' app_header
 #'
 #' Does the layout of the tabs and loads organization header image. Also set some locations of our info modal and optional org logo
@@ -94,7 +140,7 @@ app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=N
 
 }
 
-#' app_header
+#' app_charts
 #'
 #' Sets the UI of charts for our app across a set of tabs
 #' @export

@@ -2,7 +2,7 @@
 % Please edit documentation in R/UI_Functions.R
 \name{app_charts}
 \alias{app_charts}
-\title{app_header}
+\title{app_charts}
 \usage{
 app_charts()
 }
