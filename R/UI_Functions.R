@@ -177,7 +177,7 @@ app_charts<-function(){
 
 }
 
-#' app_about
+#' app_aboutpbb
 #'
 #' Does the layout of the about section
 #' @param about.link A link to their page, typically finance or city manager or maybe they have a PBB page
@@ -185,10 +185,10 @@ app_charts<-function(){
 #' @param about.text html of some paragraphs on why PBB
 #' @export
 #' @examples
-#' app_about(about.link,about.who,about.text)
+#' app_aboutpbb(about.link,about.who,about.text)
 
 
-app_about<-function(about.link,about.who,about.text){
+app_aboutpbb<-function(about.link,about.who,about.text){
 
   tagList(
     column(6,
