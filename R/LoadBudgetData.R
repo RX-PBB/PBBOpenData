@@ -241,10 +241,10 @@ present_initialize<-function(session,use_DropBox=FALSE,local_dir="./budgets/",Dr
         update_values<-updateTreeMap_Tab_SummaryAll(session,DropBox_dir,local_dir,budget=budgets[1],tabset=tab_selected,TabIndex=0,data_treemap="/data_treemap.csv",use_DropBox)
 
         #Update the reactive values
-        values$TreeMapCSV<-update_values$TreeMapCSV
-        values$TabsJSON<-update_values$TabsJSON
-        values$SummaryAll<-update_values$SummaryAll
-        values$Budget_Tab<-update_values$Budget_Tab
+        #values$TreeMapCSV<-update_values$TreeMapCSV
+        #values$TabsJSON<-update_values$TabsJSON
+        #values$SummaryAll<-update_values$SummaryAll
+        #values$Budget_Tab<-update_values$Budget_Tab
 
       #Update Department Filter
       choices = c('All Available',sort(unique(as.character(update_values$TreeMapCSV$Department))))
