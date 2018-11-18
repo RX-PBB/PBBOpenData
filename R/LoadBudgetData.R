@@ -1,8 +1,8 @@
-#**************************************************
+#****************************************************************
 #
-#  Functions for Updating via DropBox
+#  Functions for Updating via DropBox or Local file systen
 #
-#**************************************************
+#****************************************************************
 
 #' getTreeMapCSV
 #'
@@ -152,6 +152,46 @@ updateTreeMap_Tab_SummaryAll<-function(session,DropBox_dir,local_dir,budget,tabs
         return(values)
 
 }
+
+#' update_ReportsTab
+#'
+#' Checks for any reports and adds or removes tab to main tabset of charts
+#' @param local_dir the local directory where budgets are kept
+#' @param budget what budget to use, the csv file should be in a folder of the same name
+#' @export
+#' @examples
+#' update_ReportsTab(local_dir,budget)
+
+update_ReportsTab<-function(local_dir,budget){
+          reports<-list.files(path=paste0(local_dir,budget,'/reports'))
+          if(length(reports)>0){
+
+             reports.about<-NULL
+             if(is.element('reports_about.txt',reports))(reports.about<-'reports_about.txt')
+             reports<-reports[which(!is.element(reports,'reports_about.txt'))]
+
+             if(!is.null(reports.about)){
+              report.about<-HTML(readLines(paste0('./budgets/',budget,'/reports/reports_about.txt'),warn=F))
+             }
+
+            insertTab(inputId = "chart_tabs",position='after',target="Table",
+                 tab=tabPanel('Reports',style='height:700px;margin-left:15px;',
+
+                      br(),
+                      fluidRow(column(4,selectInput('presentReport_select','Select Available Reports for this Budget',choices=reports,width='100%')),
+                               column(2,tags$div(style='margin-top:25px'),downloadButton('presentReport_download',label='Download'))),
+                      report.about
+                 )
+            )
+          }else{
+
+            removeTab("chart_tabs", target='Reports')
+          }
+
+
+}
+
+
 
 
 
