@@ -4,8 +4,9 @@
 \alias{updateTreeMap_Tab_SummaryAll}
 \title{updateTreeMap_Tab_SummaryAll}
 \usage{
-updateTreeMap_Tab_SummaryAll(session, DropBox_dir, local_dir, budget, tabset,
-  TabIndex, data_treemap = "/data_treemap.csv", use_DropBox = F)
+updateTreeMap_Tab_SummaryAll(session, DropBox_dir, local_dir, budget,
+  tabset, TabIndex, data_treemap = "/data_treemap.csv",
+  use_DropBox = F)
 }
 \arguments{
 \item{session}{shiny server session variable}
