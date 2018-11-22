@@ -15,7 +15,7 @@
 #' page_head(title="PBB",favicon="favicon.ico")
 
 app_head<-function(title="PBB",favicon="favicon.ico"){
-
+   tagList(
     HTML(paste0('
         <meta charset="UTF-8">
         <title>',title,'</title>
@@ -32,25 +32,17 @@ app_head<-function(title="PBB",favicon="favicon.ico"){
         <link rel="stylesheet" href="lib/styles/bootstrap.css">
         <script src="lib/bootstrap.min.js"></script>
 
-      <!-- Shiny
-
-        Use this if HTML template only, watch out for double source of jquery
-
-        <script src="shared/shiny.js" type="text/javascript"></script>
-        <link rel="stylesheet" type="text/css" href="shared/shiny.css"/>
-        <script src="shared/jquery.js" type="text/javascript"></script>
-
-     -->
 
       <!-- Vizuly -->
 
         <link rel="stylesheet" href="lib/styles/vizuly.css">
-        <script src="lib/d3.min.js"></script>
+       <!-- <script src="lib/d3.min.js"></script> -->
         <script src="lib/vizuly2_core.min.js"></script>
         <script src="scripts/TabControl.js"></script>
         <script src="scripts/TreeMap.js"></script>
-       '))
-
+       ')),
+      includeScript(path = '../01_Shared/lib/d3.min.js')
+      )
 }
 
 
