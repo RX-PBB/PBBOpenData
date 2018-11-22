@@ -24,7 +24,7 @@ make_ProgramResultsTable<-function(df,tabdata_dataField,buttons=c('copy', 'excel
 
 
   df<-df[c('More Info',tabdata_dataField,'DirectCost', 'Program','Description')]
-  df[,input$tabdata_dataField]<-as.numeric(df[,tabdata_dataField])
+  df[,tabdata_dataField]<-as.numeric(df[,tabdata_dataField])
   df<-df[order(-df[,tabdata_dataField],-df$DirectCost),]
   df$DirectCost<-format(round(df$DirectCost,digits=0),big.mark = ",")
 
