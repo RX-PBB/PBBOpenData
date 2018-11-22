@@ -3,13 +3,14 @@
 #' Create a DT table of the pbb data for the chart tabs
 #' @param df present pbb data
 #' @param buttons what buttons to use
+#' @param tabdata_dataField what column of data to include from the present sumary csv data
 #' @export
 #' @examples
-#' make_ProgramResultsTable(df,buttons=c('copy', 'excel', 'print'))
+#' make_ProgramResultsTable(df,tabdata_dataField=input$tabdata_dataField, buttons=c('copy', 'excel', 'print'))
 
 
 
-make_ProgramResultsTable<-function(df,buttons=c('copy', 'excel', 'print')){
+make_ProgramResultsTable<-function(df,tabdata_dataField,buttons=c('copy', 'excel', 'print')){
 
   df[["More Info"]]<-
     paste0('
@@ -22,9 +23,9 @@ make_ProgramResultsTable<-function(df,buttons=c('copy', 'excel', 'print')){
            ')
 
 
-  df<-df[c('More Info',input$tabdata_dataField,'DirectCost', 'Program','Description')]
-  df[,input$tabdata_dataField]<-as.numeric(df[,input$tabdata_dataField])
-  df<-df[order(-df[,input$tabdata_dataField],-df$DirectCost),]
+  df<-df[c('More Info',tabdata_dataField,'DirectCost', 'Program','Description')]
+  df[,input$tabdata_dataField]<-as.numeric(df[,tabdata_dataField])
+  df<-df[order(-df[,tabdata_dataField],-df$DirectCost),]
   df$DirectCost<-format(round(df$DirectCost,digits=0),big.mark = ",")
 
   height<-600
