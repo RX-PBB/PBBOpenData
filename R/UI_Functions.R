@@ -36,13 +36,13 @@ app_head<-function(title="PBB",favicon="favicon.ico"){
       <!-- Vizuly -->
 
         <link rel="stylesheet" href="lib/styles/vizuly.css">
-       <!-- <script src="lib/d3.min.js"></script> -->
+        <script src="lib/d3.min.js"></script>
         <script src="lib/vizuly2_core.min.js"></script>
         <script src="scripts/TabControl.js"></script>
         <script src="scripts/TreeMap.js"></script>
-       ')),
-      includeScript(path = '../01_Shared/lib/d3.min.js')
-      )
+       '))
+
+   )
 }
 
 
