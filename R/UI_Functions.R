@@ -15,7 +15,7 @@
 #' page_head(title="PBB",favicon="favicon.ico")
 
 app_head<-function(title="PBB",favicon="favicon.ico"){
-
+   tagList(
     HTML(paste0('
         <meta charset="UTF-8">
         <title>',title,'</title>
@@ -38,15 +38,6 @@ app_head<-function(title="PBB",favicon="favicon.ico"){
         <link rel="stylesheet" href="https://onlinepbb.net/present/assets/lib/styles/bootstrap.css">
         <script src="https://onlinepbb.net/present/assets/lib/bootstrap.min.js"></script>
 
-      <!-- Shiny
-
-        Use this if HTML template only, watch out for double source of jquery
-
-        <script src="shared/shiny.js" type="text/javascript"></script>
-        <link rel="stylesheet" type="text/css" href="shared/shiny.css"/>
-        <script src="shared/jquery.js" type="text/javascript"></script>
-
-     -->
 
       <!-- Vizuly -->
 
@@ -69,6 +60,7 @@ app_head<-function(title="PBB",favicon="favicon.ico"){
 
        '))
 
+   )
 }
 
 
