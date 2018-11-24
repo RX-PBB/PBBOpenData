@@ -63,7 +63,7 @@ app_spinner<-function(spinner='spin4.gif'){
    tagList(
           useShinyjs(),
 
-         shinyjs::extendShinyjs(script="https://onlinepbb.net/present/assets/scripts/shinyjs-funcs.js",functions=c('init')),
+         shinyjs::extendShinyjs(script="..assets/scripts/shinyjs-funcs.js",functions=c('init')),
         #
         tags$style('
           #rx-busy-overlay {
