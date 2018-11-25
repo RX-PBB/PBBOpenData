@@ -51,11 +51,11 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
     colnames(df)[colnames(df)==Div1]<-'Acct_Department'
     colnames(df)[colnames(df)==Div2]<-'Acct_Division'
-    
+
     #If Account structure still has existing Department or Division in Div 2 and beyond.
     if(is.element('Division',colnames(df)))(colnames(df)[colnames(df)=='Division']<-'Client_Div')
     if(is.element('Department',colnames(df)))(colnames(df)[colnames(df)=='Department']<-'Client_Dept')
-                                            
+
     #Make Div1/Div2 consistent with open data code for "Department" "Division"
     colnames(ProgInfo)[colnames(ProgInfo)=='ProgDept']<-'Department'
     colnames(ProgInfo)[colnames(ProgInfo)=='ProgDiv']<-'Division'
@@ -125,7 +125,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     #write.csv(temp,'data_treemap.csv')
     #write.csv(df[df$AcctType=='Expense',],'summaryall.csv')
 
-    summaryall<-df[df$AcctType=='Expense',]
+    #summaryall<-df[df$AcctType=='Expense',]
     summaryall[,'Fixed']<-0
     summaryall[summaryall$Scored=='Prioritized','Fixed']<-1
     summaryall[summaryall$Scored!='Prioritized','Fixed']<-0

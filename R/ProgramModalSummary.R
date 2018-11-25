@@ -97,15 +97,19 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab
 #' @param select_by column to select on.
 #' @param filter row element to choose. Example, Prg# = 510
 #' @param Cost.Type Option to subset by Personnel or NonPersonnel
+#' @param AcctType Revenue or Expense, for our pie charts assume it is all expense
 #' @export
 #' @examples
 #' subset_SummaryAll(df=SummaryAll,select_by='Prg#',filter=chartdata_Program(),Cost.Type=NULL)
 
-subset_SummaryAll<-function(df,select_by,filter,Cost.Type=NULL){
+subset_SummaryAll<-function(df,select_by,filter,Cost.Type=NULL,AcctType='Expense'){
 
   df<-df[which(is.element(df[,select_by],filter)),]
 
   if(!is.null(Cost.Type))(df<-df[df[,'Cost.Type']==Cost.Type,])
+
+  #if set to NULL return both Revenue and Expense
+  if(!is.null(AcctType))(df<-df[df$AcctType==AcctType,])
 
   return(df)
 
