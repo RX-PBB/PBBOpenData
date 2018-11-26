@@ -16,15 +16,6 @@
 #' @examples
 #' makeOpenPBBData_Summaries(db_name_new,db_host_new,BudgetID,CostModelID)
 
-library(RMySQL)
-library(reshape2)
-
-
-db_name_new<-'RX_MonroeWI'
-db_host_new='ec2-52-11-250-69.us-west-2.compute.amazonaws.com'
-BudgetID<-5
-CostModelID<-1
-
 
 makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID){
 
@@ -204,11 +195,26 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 #'
 #' Helper Function
 #' @param con RMySQL connection
+#' @param BudgetID BudgetID to use
+#' @param CostModelID PBB CostModel ID
 #' @export
 
 
 RadSlicer_OpenData<-function(con,BudgetID,CostModelID){
-   print('here')
+
+  #helper function
+      colnameIDs_to_Names<-function(df.update, df.LinkID_Name,ID,Name){
+
+
+        for(i in 1:nrow(df.LinkID_Name)){
+
+          colnames(df.update)[colnames(df.update)==df.LinkID_Name[i,ID]]<-df.LinkID_Name[i,Name]
+        }
+
+        return(df.update)
+      }
+
+
    AcctSummary<-PullAllocations_OpenData(con,BudgetID=BudgetID,CostModelID=CostModelID)
 
 
@@ -355,45 +361,7 @@ ProgInfo_OpenPBB<-function(con,BudgetID){
      return(ProgInfo)
 }
 
-#' colnameIDs_to_Names
-#'
-#' Helper Function
-#' @param df.update dataframe to update
-#' @export
 
-colnameIDs_to_Names<-function(df.update, df.LinkID_Name,ID,Name){
-
-
-     for(i in 1:nrow(df.LinkID_Name)){
-
-     colnames(df.update)[colnames(df.update)==df.LinkID_Name[i,ID]]<-df.LinkID_Name[i,Name]
-     }
-
-     return(df.update)
-}
-
-
-#' create_IDstring
-#'
-#' Helper Function
-#' @param numeric_vector vector to format to convert into MySQL WHERE IN format. Can also be character vector
-#' @export
-
-create_IDstring<-function(numeric_vector){
-
-  if (length(numeric_vector)==0)(return(NULL))
-
-  out<-NULL
-  out<-paste("('",numeric_vector[1],sep='')
-  if (length(numeric_vector)>1){
-    for (i in 2:length(numeric_vector)){
-      out<-paste(out,"','",numeric_vector[i],sep='')
-
-    }
-  }
-  out<-paste(out,"')",sep='')
-
-}
 
 #' PullAllocations_OpenData
 #'
@@ -403,7 +371,23 @@ create_IDstring<-function(numeric_vector){
 
 PullAllocations_OpenData<-function(con,BudgetID,CostModelID){
 
-      print('here 2')
+      #helper function for here only
+      create_IDstring<-function(numeric_vector){
+
+        if (length(numeric_vector)==0)(return(NULL))
+
+        out<-NULL
+        out<-paste("('",numeric_vector[1],sep='')
+        if (length(numeric_vector)>1){
+          for (i in 2:length(numeric_vector)){
+            out<-paste(out,"','",numeric_vector[i],sep='')
+
+          }
+        }
+        out<-paste(out,"')",sep='')
+
+      }
+      #print('here 2')
 
       statement<-paste("SELECT Obj1ID, ObjType,Obj1,Obj1Code FROM Obj1Info WHERE CostModelID='",CostModelID,"';",sep='')
       Obj1<-dbGetQuery(con,statement)
