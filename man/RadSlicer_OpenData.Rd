@@ -8,6 +8,10 @@ RadSlicer_OpenData(con, BudgetID, CostModelID)
 }
 \arguments{
 \item{con}{RMySQL connection}
+
+\item{BudgetID}{BudgetID to use}
+
+\item{CostModelID}{PBB CostModel ID}
 }
 \description{
 Helper Function

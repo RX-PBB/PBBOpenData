@@ -4,7 +4,8 @@
 \alias{subset_SummaryAll}
 \title{subset_SummaryAll}
 \usage{
-subset_SummaryAll(df, select_by, filter, Cost.Type = NULL)
+subset_SummaryAll(df, select_by, filter, Cost.Type = NULL,
+  AcctType = "Expense")
 }
 \arguments{
 \item{df}{Data to subset}
@@ -14,6 +15,8 @@ subset_SummaryAll(df, select_by, filter, Cost.Type = NULL)
 \item{filter}{row element to choose. Example, Prg# = 510}
 
 \item{Cost.Type}{Option to subset by Personnel or NonPersonnel}
+
+\item{AcctType}{Revenue or Expense, for our pie charts assume it is all expense}
 }
 \description{
 subsets data
