@@ -16,6 +16,16 @@
 #' @examples
 #' makeOpenPBBData_Summaries(db_name_new,db_host_new,BudgetID,CostModelID)
 
+library(RMySQL)
+library(reshape2)
+
+
+db_name_new<-'RX_MonroeWI'
+db_host_new='ec2-52-11-250-69.us-west-2.compute.amazonaws.com'
+BudgetID<-5
+CostModelID<-1
+
+
 makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID){
 
 
@@ -25,8 +35,6 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
                       host=db_host_new,
                       dbname=db_name_new)
 
-     print('mike')
-     print(con)
 
           df<-RadSlicer_OpenData(con,BudgetID,CostModelID)
           df<-df$AcctSummary
@@ -121,6 +129,39 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
         }
     }
+
+    #include an overall column
+    temp[!is.na(temp$Quartile),'Overall']<-5-as.numeric(temp[!is.na(temp$Quartile),'Quartile'])
+
+    #include governance average
+    temp$Governance <- round(rowMeans(subset(temp, select = c(governance)), na.rm = TRUE),digits = 0)
+    temp[is.nan(temp$Governance),'Governance']<-NA
+
+    #Include Policy Questions
+    temp[,'Policy0']<-0
+    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=1),'Policy0']<-1
+    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.75),'Policy0']<-2
+    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.5),'Policy0']<-3
+    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.25),'Policy0']<-4
+    temp[(temp$ProgramRevenue==0),'Policy0']<-0
+
+    temp[,'Policy1']<-0
+    temp[temp$Quartile>2 & temp$Mandate==4,'Policy1']<-4
+
+    temp[,'Policy2']<-0
+    temp[temp$Quartile>2 & temp$Mandate==2,'Policy2']<-4
+
+    temp[,'Policy3']<-0
+    temp[temp$Quartile<3 & temp$Reliance==3,'Policy3']<-4
+
+    temp[,'Policy4']<-0
+    temp[temp$Quartile>2 & temp$Reliance<3,'Policy4']<-4
+
+    temp[,'Policy5']<-0
+    temp[temp$Quartile>2 & temp$Reliance<2 & temp$Mandate<2,'Policy5']<-4
+
+    #screen for :,;,!
+
 
     #write.csv(temp,'data_treemap.csv')
     #write.csv(df[df$AcctType=='Expense',],'summaryall.csv')
