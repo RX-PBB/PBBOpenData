@@ -158,6 +158,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     #write.csv(df[df$AcctType=='Expense',],'summaryall.csv')
 
     #summaryall<-df[df$AcctType=='Expense',]
+    summaryall<-df
     summaryall[,'Fixed']<-0
     summaryall[summaryall$Scored=='Prioritized','Fixed']<-1
     summaryall[summaryall$Scored!='Prioritized','Fixed']<-0
