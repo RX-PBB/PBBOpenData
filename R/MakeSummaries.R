@@ -166,6 +166,11 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
         }
     }
+
+    #sort
+    temp<-temp[order(temp$Type,temp$Department,temp$Program),]
+
+
     #write.csv(temp,'data_treemap.csv')
     #write.csv(df[df$AcctType=='Expense',],'summaryall.csv')
 
