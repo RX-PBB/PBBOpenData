@@ -151,9 +151,21 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     temp[,'Policy5']<-0
     temp[temp$Quartile>2 & temp$Reliance<2 & temp$Mandate<2,'Policy5']<-4
 
-    #screen for :,;,!
+    #screen for :,;,! our of Department, Division, and Program fields
+    for (i in 3:5){
+      temp[,i]<-gsub(":","-",temp[,i])
+      temp[,i]<-gsub(";","-",temp[,i])
+      temp[,i]<-gsub("!","",temp[,i])
+    }
 
+    #update Community Results with PresentAbbr
+    abbrs<-ResultSetup[!is.na(ResultSetup$PresentAbbr),]
+    if (nrow(abbrs)>0){
+        for(i in 1:nrow(abbrs)){
+          colnames(temp)[colnames(temp)==abbrs[i,'ResultAbbr']]<-abbrs[i,'PresentAbbr']
 
+        }
+    }
     #write.csv(temp,'data_treemap.csv')
     #write.csv(df[df$AcctType=='Expense',],'summaryall.csv')
 
