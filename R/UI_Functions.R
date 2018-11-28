@@ -30,17 +30,17 @@ app_head<-function(title="PBB",favicon="favicon.ico"){
      <!-- Bootstrap -->
 
 
-        <link rel="stylesheet" href="https://onlinepbb.net/present/assets/lib/styles/bootstrap.css">
-        <script src="https://onlinepbb.net/present/assets/lib/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="../assets/lib/styles/bootstrap.css">
+        <script src="../assets/lib/bootstrap.min.js"></script>
 
 
       <!-- Vizuly -->
 
-        <link rel="stylesheet" href="https://onlinepbb.net/present/assets/lib/styles/vizuly.css">
-        <script src="https://onlinepbb.net/present/assets/lib/d3.min.js"></script>
-        <script src="https://onlinepbb.net/present/assets/lib/vizuly2_core.min.js"></script>
-        <script src="https://onlinepbb.net/present/assets/scripts/TabControl.js"></script>
-        <script src="https://onlinepbb.net/present/assets/scripts/TreeMap.js"></script>
+        <link rel="stylesheet" href="../assets/lib/styles/vizuly.css">
+        <script src="../assets/lib/d3.min.js"></script>
+        <script src="../assets/lib/vizuly2_core.min.js"></script>
+        <script src="../assets/scripts/TabControl.js"></script>
+        <script src="../assets/scripts/TreeMap.js"></script>
 
 
 
