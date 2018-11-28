@@ -90,7 +90,7 @@ update_ReportsTab<-function(local_dir,budget){
     reports<-reports[which(!is.element(reports,'reports_about.txt'))]
 
     if(!is.null(reports.about)){
-      report.about<-HTML(readLines(paste0('./budgets/',budget,'/reports/reports_about.txt'),warn=F))
+      reports.about<-HTML(readLines(paste0('./budgets/',budget,'/reports/reports_about.txt'),warn=F))
     }
 
     insertTab(inputId = "chart_tabs",position='after',target="Table",
@@ -99,7 +99,7 @@ update_ReportsTab<-function(local_dir,budget){
                            br(),
                            fluidRow(column(4,selectInput('presentReport_select','Select Available Reports for this Budget',choices=reports,width='100%')),
                                     column(2,tags$div(style='margin-top:25px'),downloadButton('presentReport_download',label='Download'))),
-                           report.about
+                           reports.about
               )
     )
   }else{
