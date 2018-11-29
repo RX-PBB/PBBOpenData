@@ -122,7 +122,13 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     }
 
     #include an overall column
-    temp[!is.na(temp$Quartile),'Overall']<-5-as.numeric(temp[!is.na(temp$Quartile),'Quartile'])
+    overall<-temp[!is.na(temp$Quartile),]
+    overall<-overall[overall$Quartile!="Non-Prioritized",]
+    overall$Quartile<-5-as.numeric(overall$Quartile)
+
+    temp1<-temp[is.na(temp$Quartile),]
+    temp2<-temp[temp$Quartile=="Non-Prioritized",]
+    temp<-rbind(overall,temp1,temp2)
 
     #include governance average
     temp$Governance <- round(rowMeans(subset(temp, select = c(governance)), na.rm = TRUE),digits = 0)
@@ -137,19 +143,19 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     temp[(temp$ProgramRevenue==0),'Policy0']<-0
 
     temp[,'Policy1']<-0
-    temp[temp$Quartile>2 & temp$Mandate==4,'Policy1']<-4
+    temp[temp$Quartile>2 & temp$Mandate==4 & !is.na(temp$Mandate),'Policy1']<-4
 
     temp[,'Policy2']<-0
-    temp[temp$Quartile>2 & temp$Mandate==2,'Policy2']<-4
+    temp[temp$Quartile>2 & temp$Mandate==2 & !is.na(temp$Mandate),'Policy2']<-4
 
     temp[,'Policy3']<-0
-    temp[temp$Quartile<3 & temp$Reliance==3,'Policy3']<-4
+    temp[temp$Quartile<3 & temp$Reliance==3 & !is.na(temp$Reliance),'Policy3']<-4
 
     temp[,'Policy4']<-0
-    temp[temp$Quartile>2 & temp$Reliance<3,'Policy4']<-4
+    temp[temp$Quartile>2 & temp$Reliance<3 & !is.na(temp$Reliance),'Policy4']<-4
 
     temp[,'Policy5']<-0
-    temp[temp$Quartile>2 & temp$Reliance<2 & temp$Mandate<2,'Policy5']<-4
+    temp[temp$Quartile>2 & temp$Reliance<2 & temp$Mandate<2 & !is.na(temp$Mandate),'Policy5']<-4
 
     #screen for :,;,! our of Department, Division, and Program fields
     for (i in 3:5){
