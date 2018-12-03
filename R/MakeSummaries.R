@@ -158,7 +158,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     temp[temp$Quartile>2 & temp$Reliance<2 & temp$Mandate<2 & !is.na(temp$Mandate),'Policy5']<-4
 
     #screen for :,;,! our of Department, Division, and Program fields
-    for (i in 3:5){
+    for (i in 3:6){
       temp[,i]<-gsub(":","-",temp[,i])
       temp[,i]<-gsub(";","-",temp[,i])
       temp[,i]<-gsub("!","",temp[,i])
