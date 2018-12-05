@@ -160,8 +160,7 @@ app_charts<-function(){
                        tags$div(id="treemap", style="width:1100px; height:700px; overflow:hidden")
               ),
               tabPanel("Table",
-                       br(),
-                       h4(em("The table shows the highest cost program by category")),
+                       h4(em("The table shows the highest cost program by category. Click more info to see a detailed breakdown of the program costs.")),
                        fluidRow(column(12,DT::dataTableOutput('ProgramResultsTable'))),
                         tags$script("$(document).on('click', '#ProgramResultsTable button', function () {
                         Shiny.onInputChange('lastClickId',this.id);
