@@ -166,11 +166,15 @@ app_charts<-function(){
                         tags$script("$(document).on('click', '#ProgramResultsTable button', function () {
                         Shiny.onInputChange('lastClickId',this.id);
                         Shiny.onInputChange('lastClick', Math.random())});"),
-                       hr(),
+
                        h4(em("**Please allow 5-10 seconds for the table to load"))
               )
 
-      )
+
+
+      ),
+
+      hr()
   )
 
 
