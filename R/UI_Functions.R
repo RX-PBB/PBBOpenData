@@ -161,11 +161,13 @@ app_charts<-function(){
               ),
               tabPanel("Table",
                        h4(em("The table shows the highest cost program by category. Click more info to see a detailed breakdown of the program costs.")),
+                       br(),
                        fluidRow(column(12,DT::dataTableOutput('ProgramResultsTable'))),
                         tags$script("$(document).on('click', '#ProgramResultsTable button', function () {
                         Shiny.onInputChange('lastClickId',this.id);
                         Shiny.onInputChange('lastClick', Math.random())});"),
-                       h4(em("Please allow 5-10 seconds for the table to load"))
+                       hr(),
+                       h4(em("**Please allow 5-10 seconds for the table to load"))
               )
 
       )
