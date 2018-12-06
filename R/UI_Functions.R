@@ -115,7 +115,7 @@ app_spinner<-function(spinner='spin4.gif'){
 app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225){
 
   tagList(
-
+    tags$div(id="spinnyloader", class="spinny"),
    #<!-- City Header, info and logos  -->
     tags$div(id="header-image", style="position:relative",
              tags$img(src=paste0("assets/",header)),
