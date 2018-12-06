@@ -42,6 +42,8 @@ app_head<-function(title="PBB",favicon="favicon.ico"){
         <script src="https://onlinepbb.net/present/assets/scripts/TabControl.js"></script>
         <script src="https://onlinepbb.net/present/assets/scripts/TreeMap.js"></script>
 
+      <!-- Specialized -->
+        <link rel="stylesheet" href="https://onlinepbb.net/present/assets/lib/styles/spinny.css">
 
 
        '))
@@ -277,4 +279,15 @@ app_footer<-function(logo,logo.top_margin=20,height=205,background_color="#eee",
 
 }
 
-
+#' app_endjs
+#'
+#' loads javascript files at end up ui that are same for all
+#' @param
+#' @export
+#' @examples
+#' app_endjs()
+app_endjs<-function(){
+  tagList(
+    HTML('<script src="https://onlinepbb.net/present/assets/scripts/tools.js"></script>')
+  )
+}

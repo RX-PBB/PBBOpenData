@@ -10,7 +10,7 @@
 
 
 
-make_ProgramResultsTable<-function(df,tabdata_dataField,buttons=c('copy', 'excel', 'print')){
+make_ProgramResultsTable<-function(df,tabdata_dataField,buttons=c('copy', 'excel', 'print'), doneFun=NULL){
 
   df[["More Info"]]<-
     paste0('
@@ -38,6 +38,7 @@ make_ProgramResultsTable<-function(df,tabdata_dataField,buttons=c('copy', 'excel
                                buttons = buttons,
                                searchHighlight = TRUE,
                                autoWidth=TRUE,
+                               initComplete = JS("function(settings, json) {$('#spinnyloader').removeClass('spinnyloader')}"),
                                columnDefs = list(list(width =paste(width*.1,'px',sep=''), targets = c(0)),
                                                  list(width =paste(width*.08,'px',sep=''), targets = c(1)),
                                                  list(width =paste(width*.08,'px',sep=''), targets = c(2)),
@@ -53,11 +54,8 @@ make_ProgramResultsTable<-function(df,tabdata_dataField,buttons=c('copy', 'excel
                                scrollCollapse=TRUE,
                                pageLength = 25, lengthMenu = c(25,50,150,250)
 
+
                 ))
-
-
-
-
-
   return(dt)
 }
+
