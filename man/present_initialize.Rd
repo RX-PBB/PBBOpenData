@@ -4,8 +4,8 @@
 \alias{present_initialize}
 \title{present_initialize}
 \usage{
-present_initialize(session, use_DropBox = FALSE,
-  local_dir = "./budgets/", DropBox_dir = NULL)
+present_initialize(session, use_DropBox = FALSE, local_dir = "./budgets/",
+  DropBox_dir = NULL)
 }
 \arguments{
 \item{session}{shiny server session variable}
