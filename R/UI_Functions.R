@@ -31,7 +31,7 @@ app_head<-function(title="PBB",favicon="favicon.ico",base='openpbbdata.net/prese
 
 
         <link rel="stylesheet" href="https://',base,'/assets/lib/styles/bootstrap.css">
-        <script src="https://o',base,'/assets/lib/bootstrap.min.js"></script>
+        <script src="https://',base,'/assets/lib/bootstrap.min.js"></script>
 
 
       <!-- Vizuly -->
