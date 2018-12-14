@@ -288,6 +288,6 @@ app_footer<-function(logo,logo.top_margin=20,height=205,background_color="#eee",
 #' app_endjs()
 app_endjs<-function(){
   tagList(
-    HTML('<script src="https://onlinepbb.net/present/assets/scripts/tools.js"></script>')
+    HTML('<script src="https://openpbbdata.net/present/assets/scripts/tools.js"></script>')
   )
 }
