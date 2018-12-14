@@ -14,7 +14,7 @@
 #' @examples
 #' page_head(title="PBB",favicon="favicon.ico")
 
-app_head<-function(title="PBB",favicon="favicon.ico",base='openpbbdata.net'){
+app_head<-function(title="PBB",favicon="favicon.ico",base='openpbbdata.net/present'){
    tagList(
     HTML(paste0('
         <meta charset="UTF-8">
