@@ -5,8 +5,8 @@
 \title{app_header}
 \usage{
 app_header(header = "header.jpg", info.top = 245, info.left = 20,
-  header_logo = NULL, header_logo.top = NULL, header_logo.left = NULL,
-  tabs.height = 225)
+  header_logo = NULL, header_logo.top = NULL,
+  header_logo.left = NULL, tabs.height = 225)
 }
 \arguments{
 \item{header}{page header image}
