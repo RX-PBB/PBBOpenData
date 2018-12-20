@@ -124,10 +124,14 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     #include an overall column
     overall<-temp[!is.na(temp$Quartile),]
     overall<-overall[overall$Quartile!="Non-Prioritized",]
-    overall$Quartile<-5-as.numeric(overall$Quartile)
+    overall$Overall<-5-as.numeric(overall$Quartile)
 
     temp1<-temp[is.na(temp$Quartile),]
     temp2<-temp[temp$Quartile=="Non-Prioritized",]
+
+    temp1[,'Overall']<-0
+    temp2[,'Overall']<-0
+
     temp<-rbind(overall,temp1,temp2)
 
     #include governance average
