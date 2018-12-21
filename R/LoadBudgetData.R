@@ -141,7 +141,7 @@ updateTreeMap_Tab_SummaryAll<-function(session,DropBox_dir,local_dir,budget,tabs
       #Get the Summary Data
         SummaryAll<-getSummaryAll(DropBox_dir,local_dir,budget,tabset,use_DropBox)
 
-        Budget_Tab<-paste0(budget,"_",tabset,"_",'All Available')
+        Budget_Tab<-paste0(budget,"_",tabset)
 
         values<-list()
         values$TreeMapCSV<-TreeMapCSV
