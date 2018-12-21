@@ -16,10 +16,7 @@
 #' @examples
 #' makeOpenPBBData_Summaries(db_name_new,db_host_new,BudgetID,CostModelID)
 
-db_host_new<-'ec2-52-11-250-69.us-west-2.compute.amazonaws.com'
-BudgetID<-1
-CostModelID<-1
-db_name_new<-'RX_UnifiedGovKS'
+
 makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID){
 
 
