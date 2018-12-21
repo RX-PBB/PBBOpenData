@@ -16,7 +16,10 @@
 #' @examples
 #' makeOpenPBBData_Summaries(db_name_new,db_host_new,BudgetID,CostModelID)
 
-
+db_host_new<-'ec2-52-11-250-69.us-west-2.compute.amazonaws.com'
+BudgetID<-1
+CostModelID<-1
+db_name_new<-'RX_UnifiedGovKS'
 makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID){
 
 
@@ -122,17 +125,10 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     }
 
     #include an overall column
-    overall<-temp[!is.na(temp$Quartile),]
-    overall<-overall[overall$Quartile!="Non-Prioritized",]
-    overall[,'Overall']<-5-as.numeric(overall$Quartile)
+    temp[,'Overall']<-0
+    temp[,'Overall']<-5-as.numeric(temp$Quartile)
+    temp[is.na(temp$Overall),'Overall']<-0
 
-    temp1<-temp[is.na(temp$Quartile),]
-    temp2<-temp1[temp1$Quartile=="Non-Prioritized",]
-
-    temp1[,'Overall']<-0
-    temp2[,'Overall']<-0
-
-    temp<-rbind(overall,temp1,temp2)
 
     #include governance average
     temp$Governance <- round(rowMeans(subset(temp, select = c(governance)), na.rm = TRUE),digits = 0)
