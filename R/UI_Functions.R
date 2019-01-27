@@ -14,7 +14,7 @@
 #' @examples
 #' page_head(title="PBB",favicon="favicon.ico")
 
-app_head<-function(title="PBB",favicon="favicon.ico"){
+app_head<-function(title="PBB",favicon="favicon.ico",base='openpbbdata.net/present'){
    tagList(
     HTML(paste0('
         <meta charset="UTF-8">
@@ -30,20 +30,20 @@ app_head<-function(title="PBB",favicon="favicon.ico"){
      <!-- Bootstrap -->
 
 
-        <link rel="stylesheet" href="https://onlinepbb.net/present/assets/lib/styles/bootstrap.css">
-        <script src="https://onlinepbb.net/present/assets/lib/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://',base,'/assets/lib/styles/bootstrap.css">
+        <script src="https://',base,'/assets/lib/bootstrap.min.js"></script>
 
 
       <!-- Vizuly -->
 
-        <link rel="stylesheet" href="https://onlinepbb.net/present/assets/lib/styles/vizuly.css">
-        <script src="https://onlinepbb.net/present/assets/lib/d3.min.js"></script>
-        <script src="https://onlinepbb.net/present/assets/lib/vizuly2_core.min.js"></script>
-        <script src="https://onlinepbb.net/present/assets/scripts/TabControl.js"></script>
-        <script src="https://onlinepbb.net/present/assets/scripts/TreeMap.js"></script>
+        <link rel="stylesheet" href="https://',base,'/assets/lib/styles/vizuly.css">
+        <script src="https://',base,'/assets/lib/d3.min.js"></script>
+        <script src="https://',base,'/assets/lib/vizuly2_core.min.js"></script>
+        <script src="https://',base,'/assets/scripts/TabControl.js"></script>
+        <script src="https://',base,'/assets/scripts/TreeMap.js"></script>
 
       <!-- Specialized -->
-        <link rel="stylesheet" href="https://onlinepbb.net/present/assets/lib/styles/spinny.css">
+        <link rel="stylesheet" href="https://',base,'/assets/lib/styles/spinny.css">
 
 
        '))
@@ -305,6 +305,6 @@ app_footer<-function(logo,logo.top_margin=20,height=205,background_color="#eee",
 #' app_endjs()
 app_endjs<-function(){
   tagList(
-    HTML('<script src="https://onlinepbb.net/present/assets/scripts/tools.js"></script>')
+    HTML('<script src="https://openpbbdata.net/present/assets/scripts/tools.js"></script>')
   )
 }
