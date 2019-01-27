@@ -28,7 +28,9 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab
                        Program=input$chartdata_Program,
                        Desc=input$chartdata_Desc,description.HTML=F,
                        TotalCost=input$chartdata_TotalCost,
-                       FTE=input$chartdata_FTE){
+                       FTE=input$chartdata_FTE,
+                       hasProgramMetrics=F,
+                       MetricsLink=NULL){
 
   if(Modal_header==T){
 
@@ -64,10 +66,21 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab
                       htmlOutput("ProgramNonPersonnel_GvizPlot"),
                       rHandsontableOutput('ProgramNonPersonnel_hot')
             )}else(OperatingCosts_tab<-NULL)
+  
+  
+  if(hasProgramMetrics==T){
+    
+    Metrics_tab<-tabPanel('Performance',
+                    
+                    HTML(paste0('<iframe src="',MetricsLink,'" style="width:100%;height:350px;"></iframe>'))
+                    
+    )
+    
+  }else{Metrics_tab<-NULL}
 
   if(Modal_tabs==T){
 
-    Modal_tabs<-tagList(tabsetPanel(TotalCost_tab,Positions_tab,OperatingCosts_tab))
+    Modal_tabs<-tagList(tabsetPanel(TotalCost_tab,Positions_tab,OperatingCosts_tab,Metrics_tab))
 
   }else(Modal_tabs<-NULL)
 

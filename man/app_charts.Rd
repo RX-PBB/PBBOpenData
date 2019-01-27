@@ -4,7 +4,10 @@
 \alias{app_charts}
 \title{app_charts}
 \usage{
-app_charts()
+app_charts(hasMetrics = F)
+}
+\arguments{
+\item{hasMetrics}{Include the metrics tab}
 }
 \description{
 Sets the UI of charts for our app across a set of tabs
