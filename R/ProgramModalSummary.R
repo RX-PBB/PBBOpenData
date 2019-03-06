@@ -66,17 +66,17 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab
                       htmlOutput("ProgramNonPersonnel_GvizPlot"),
                       rHandsontableOutput('ProgramNonPersonnel_hot')
             )}else(OperatingCosts_tab<-NULL)
-  
-  
+
+
   if(hasProgramMetrics==T){
-    
+
     Metrics_tab<-tabPanel('Performance',
-                    
+
                     HTML(paste0('<iframe src="',MetricsLink,'" style="width:100%;height:350px;"></iframe>'))
-                    
+
     )
-    
-  }else{Metrics_tab<-NULL}
+
+  }else{Metrics_tab<-tabPanel("")}
 
   if(Modal_tabs==T){
 
