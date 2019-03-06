@@ -159,6 +159,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
       temp[,i]<-gsub(":","-",temp[,i])
       temp[,i]<-gsub(";","-",temp[,i])
       temp[,i]<-gsub("!","",temp[,i])
+      temp[,i]<-gsub("\"","'",temp[,i])
     }
 
     #update Community Results with PresentAbbr
