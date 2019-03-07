@@ -133,10 +133,10 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
     #Include Policy Questions
     temp[,'Policy0']<-0
-    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=1),'Policy0']<-1
-    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.75),'Policy0']<-2
-    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.5),'Policy0']<-3
-    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.25),'Policy0']<-4
+    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=1),'Policy0']<-4
+    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.75),'Policy0']<-3
+    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.5),'Policy0']<-2
+    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.25),'Policy0']<-1
     temp[(temp$ProgramRevenue==0),'Policy0']<-0
 
     temp[,'Policy1']<-0
