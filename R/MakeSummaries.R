@@ -147,7 +147,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     temp[temp$Quartile>2 & temp$Mandate==2 & !is.na(temp$Mandate),'Policy2']<-4
 
     temp[,'Policy3']<-0
-    temp[temp$Quartile<3 & temp$Reliance==3 & !is.na(temp$Reliance),'Policy3']<-4
+    temp[temp$Quartile<3 & temp$Reliance>=3 & !is.na(temp$Reliance),'Policy3']<-4
 
     temp[,'Policy4']<-0
     temp[temp$Quartile>2 & temp$Reliance<3 & !is.na(temp$Reliance),'Policy4']<-4
