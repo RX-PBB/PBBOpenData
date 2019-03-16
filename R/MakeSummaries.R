@@ -131,6 +131,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     temp$Governance <- round(rowMeans(subset(temp, select = c(governance)), na.rm = TRUE),digits = 0)
     temp[is.nan(temp$Governance),'Governance']<-NA
 
+
     #Include Policy Questions
     temp[,'Policy0']<-0
     temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=1),'Policy0']<-1
@@ -152,7 +153,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     temp[temp$Quartile>2 & temp$Reliance<3 & !is.na(temp$Reliance),'Policy4']<-4
 
     temp[,'Policy5']<-0
-    temp[temp$Quartile>2 & temp$Reliance<2 & temp$Mandate<2 & !is.na(temp$Mandate),'Policy5']<-4
+    temp[temp$Quartile>2 & temp$Reliance<2 & !is.na(temp$Reliance) & temp$Mandate<2 & !is.na(temp$Mandate),'Policy5']<-4
 
     #screen for :,;,! our of Department, Division, and Program fields
     for (i in 3:6){
