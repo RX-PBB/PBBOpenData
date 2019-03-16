@@ -134,10 +134,11 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
     #Include Policy Questions
     temp[,'Policy0']<-0
-    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=1),'Policy0']<-1
-    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.75),'Policy0']<-2
-    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.5),'Policy0']<-3
-    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.25),'Policy0']<-4
+    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=1),'Policy0']<-4
+    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost>1),'Policy0']<-4
+    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.75),'Policy0']<-3
+    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.5),'Policy0']<-2
+    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.25),'Policy0']<-1
     temp[(temp$ProgramRevenue==0),'Policy0']<-0
 
     temp[,'Policy1']<-0
@@ -147,7 +148,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     temp[temp$Quartile>2 & temp$Mandate==2 & !is.na(temp$Mandate),'Policy2']<-4
 
     temp[,'Policy3']<-0
-    temp[temp$Quartile<3 & temp$Reliance==3 & !is.na(temp$Reliance),'Policy3']<-4
+    temp[temp$Quartile<3 & temp$Reliance>=3 & !is.na(temp$Reliance),'Policy3']<-4
 
     temp[,'Policy4']<-0
     temp[temp$Quartile>2 & temp$Reliance<3 & !is.na(temp$Reliance),'Policy4']<-4
@@ -155,11 +156,12 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     temp[,'Policy5']<-0
     temp[temp$Quartile>2 & temp$Reliance<2 & !is.na(temp$Reliance) & temp$Mandate<2 & !is.na(temp$Mandate),'Policy5']<-4
 
-    #screen for :,;,! our of Department, Division, and Program fields
+    #screen for :,;,!," our of Department, Division, and Program fields
     for (i in 3:6){
       temp[,i]<-gsub(":","-",temp[,i])
       temp[,i]<-gsub(";","-",temp[,i])
       temp[,i]<-gsub("!","",temp[,i])
+      temp[,i]<-gsub("\"","'",temp[,i])
     }
 
     #update Community Results with PresentAbbr
