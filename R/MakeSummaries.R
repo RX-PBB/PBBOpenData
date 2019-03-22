@@ -5,6 +5,7 @@
 #**************************************************
 
 
+data<-makeOpenPBBData_Summaries(db_name_new,db_host_new,BudgetID,CostModelID)
 #' makeOpenPBBData_Summaries
 #'
 #' makes two summary files outputed as a list. csv is the treemap summary. summaryall is the data for the program level summary
@@ -82,6 +83,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
           for (k in 1:length(Programs)){
             prog<-Programs[[k]]
 
+
             row<-data.frame(
               Year=prog[1,'Year'],
               Type=prog[1,'ServiceType'],
@@ -93,23 +95,32 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
               Final_Score=prog[1,'FinalScore'],
               TotalCost=sum(prog[prog$AcctType=='Expense','ProgramCost'],na.rm = T),
               FTE=sum(prog[prog$`Cost Type`=='Personnel','FTE.Alloc'],na.rm = T),
-              ProgramRevenue=sum(prog[prog$AcctType=='Revenue','ProgramCost'],na.rm = T),
               DirectCost=sum(prog[prog$AcctType=='Expense','ProgramCost'],na.rm = T),
+              Personnel=sum(prog[prog$AcctType=='Expense' & prog$`Cost Type`=='Personnel','ProgramCost'],na.rm = T),
+              NonPersonnel=sum(prog[prog$AcctType=='Expense' & prog$`Cost Type`=='NonPersonnel','ProgramCost'],na.rm = T),
+              ProgramRevenue=sum(prog[prog$AcctType=='Revenue','ProgramCost'],na.rm = T),
+
               stringsAsFactors=F)
 
-            for(x in 1:length(bpas)){
-              row<-cbind(row,prog[1,bpas[x]])
-              colnames(row)[length(row)]<-bpas[x]
+            if(!is.null(bpas)){
+                for(x in 1:length(bpas)){
+                  row<-cbind(row,prog[1,bpas[x]])
+                  colnames(row)[length(row)]<-bpas[x]
+                }
             }
 
-            for(x in 1:length(community)){
-              row<-cbind(row,prog[1,community[x]])
-              colnames(row)[length(row)]<-community[x]
+            if(!is.null(community)){
+                for(x in 1:length(community)){
+                  row<-cbind(row,prog[1,community[x]])
+                  colnames(row)[length(row)]<-community[x]
+                }
             }
 
-            for(x in 1:length(governance)){
-              row<-cbind(row,prog[1,governance[x]])
-              colnames(row)[length(row)]<-governance[x]
+            if(!is.null(governance)){
+                for(x in 1:length(governance)){
+                  row<-cbind(row,prog[1,governance[x]])
+                  colnames(row)[length(row)]<-governance[x]
+                }
             }
 
             row<-cbind(row,prog[1,'Description'])
@@ -119,6 +130,71 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
           }
 
         }
+    }
+
+    #**********************************************************
+    # Calculate quartile rank of finacial data by department
+    #**********************************************************
+    Present_Ranking<-function(x,Q1,Q2,Q3){
+
+      if(!is.na(x)){
+          Present_Ranking<-1
+          if(x>=Q3)(Present_Ranking<-2)
+          if(x>=Q2)(Present_Ranking<-3)
+          if(x>=Q1)(Present_Ranking<-4)
+
+          #This means all values are zero so there is no ranking
+          if(Q1==0)(Present_Ranking<-0)
+
+          return(Present_Ranking)
+      }else(return (NA))
+    }
+
+    Depts<-temp
+    Depts<-split(Depts,Depts$Department)
+    temp<-NULL
+    for (i in 1:length(Depts)){
+
+      #Get department totals for ranking the individual programs on.
+
+      T_Q1<-quantile(Depts[[i]]$TotalCost,prob=1-25/100)
+      T_Q2<-quantile(Depts[[i]]$TotalCost,prob=1-50/100)
+      T_Q3<-quantile(Depts[[i]]$TotalCost,prob=1-75/100)
+
+      P_Q1<-quantile(Depts[[i]]$Personnel,prob=1-25/100)
+      P_Q2<-quantile(Depts[[i]]$Personnel,prob=1-50/100)
+      P_Q3<-quantile(Depts[[i]]$Personnel,prob=1-75/100)
+
+      NP_Q1<-quantile(Depts[[i]]$NonPersonnel,prob=1-25/100)
+      NP_Q2<-quantile(Depts[[i]]$NonPersonnel,prob=1-50/100)
+      NP_Q3<-quantile(Depts[[i]]$NonPersonnel,prob=1-75/100)
+
+      R_Q1<-quantile(Depts[[i]]$ProgramRevenue,prob=1-25/100)
+      R_Q2<-quantile(Depts[[i]]$ProgramRevenue,prob=1-50/100)
+      R_Q3<-quantile(Depts[[i]]$ProgramRevenue,prob=1-75/100)
+
+      FTE_Q1<-quantile(Depts[[i]]$FTE,prob=1-25/100)
+      FTE_Q2<-quantile(Depts[[i]]$FTE,prob=1-50/100)
+      FTE_Q3<-quantile(Depts[[i]]$FTE,prob=1-75/100)
+
+      Divs<-Depts[[i]]
+      Divs<-split(Divs,Divs$Division)
+      for (j in 1:length(Divs)){
+        Programs<-Divs[[j]]
+        Programs<-split(Programs,Programs$ProgID)
+        for (k in 1:length(Programs)){
+          prog<-Programs[[k]]
+
+          prog[,'Rank_Total']<-Present_Ranking(prog[1,'TotalCost'],T_Q1,T_Q2,T_Q3)
+          prog[,'Rank_FTE']<-Present_Ranking(prog[1,'FTE'],FTE_Q1,FTE_Q2,FTE_Q3)
+          prog[,'Rank_P']<-Present_Ranking(prog[1,'Personnel'],P_Q1,P_Q2,P_Q3)
+          prog[,'Rank_NP']<-Present_Ranking(prog[1,'NonPersonnel'],NP_Q1,NP_Q2,NP_Q3)
+          prog[,'Rank_R']<-Present_Ranking(prog[1,'ProgramRevenue'],R_Q1,R_Q2,R_Q3)
+
+          temp<-rbind(temp,prog)
+
+        }
+      }
     }
 
     #include an overall column
@@ -133,12 +209,13 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
 
     #Include Policy Questions
+    #NOTE: 4 is the highest because it is most opportunity!
     temp[,'Policy0']<-0
-    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=1),'Policy0']<-4
-    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost>1),'Policy0']<-4
-    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.75),'Policy0']<-3
-    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.5),'Policy0']<-2
-    temp[temp$DirectCost>0 & (temp$ProgramRevenue/temp$DirectCost<=.25),'Policy0']<-1
+    temp[temp$DirectCost>0 & temp$ProgramRevenue>0 & (temp$ProgramRevenue/temp$DirectCost>1),'Policy0']<-0
+    temp[temp$DirectCost>0 & temp$ProgramRevenue>0 & (temp$ProgramRevenue/temp$DirectCost<=1),'Policy0']<-1
+    temp[temp$DirectCost>0 & temp$ProgramRevenue>0 & (temp$ProgramRevenue/temp$DirectCost<=.75),'Policy0']<-2
+    temp[temp$DirectCost>0 & temp$ProgramRevenue>0 & (temp$ProgramRevenue/temp$DirectCost<=.5),'Policy0']<-3
+    temp[temp$DirectCost>0 & temp$ProgramRevenue>0 & (temp$ProgramRevenue/temp$DirectCost<=.25),'Policy0']<-4
     temp[(temp$ProgramRevenue==0),'Policy0']<-0
 
     temp[,'Policy1']<-0
@@ -155,6 +232,8 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
     temp[,'Policy5']<-0
     temp[temp$Quartile>2 & temp$Reliance<2 & !is.na(temp$Reliance) & temp$Mandate<2 & !is.na(temp$Mandate),'Policy5']<-4
+
+
 
     #screen for :,;,!," our of Department, Division, and Program fields
     for (i in 3:6){
@@ -278,19 +357,29 @@ RadSlicer_OpenData<-function(con,BudgetID,CostModelID){
 
    ResultAbbr<-ResultSetup[which(is.element(ResultSetup$ResultType,ResultTypes[ResultTypes$Scored==1,"ResultType"])),] #Linker df
 
-   BPAs<-Scores[which(is.element(Scores$ResultID,ResultAbbr[ResultAbbr$ResultType=='BPA','ResultID'])),]
-   BPAs<-BPAs[c('ProgID','ResultID','ScorePeer')]
-   BPAs<-dcast(BPAs,ProgID~ResultID,value.var = 'ScorePeer',fill = NA)
-   #update colnames to BPAs names
-   BPAs<-colnameIDs_to_Names(df.update=BPAs,df.LinkID_Name=ResultAbbr,ID='ResultID',Name='ResultAbbr')
-   BPAs.names<-colnames(BPAs[which(!is.element(colnames(BPAs),'ProgID'))])
 
-   Results<-Scores[which(is.element(Scores$ResultID,ResultAbbr[ResultAbbr$ResultType!='BPA','ResultID'])),]
-   Results<-Results[c('ProgID','ResultID','ScorePeer')]
-   Results<-dcast(Results,ProgID~ResultID,value.var = 'ScorePeer',fill = NA)
-   Results<-colnameIDs_to_Names(df.update=Results,df.LinkID_Name=ResultAbbr,ID='ResultID',Name='ResultAbbr')
-   Results.names<-colnames(Results[which(!is.element(colnames(Results),'ProgID'))])
+   if(nrow(Scores[which(is.element(Scores$ResultID,ResultAbbr[ResultAbbr$ResultType=='BPA','ResultID'])),])>0){
+       BPAs<-Scores[which(is.element(Scores$ResultID,ResultAbbr[ResultAbbr$ResultType=='BPA','ResultID'])),]
+       BPAs<-BPAs[c('ProgID','ResultID','ScorePeer')]
+       BPAs<-dcast(BPAs,ProgID~ResultID,value.var = 'ScorePeer',fill = NA)
+       #update colnames to BPAs names
+       BPAs<-colnameIDs_to_Names(df.update=BPAs,df.LinkID_Name=ResultAbbr,ID='ResultID',Name='ResultAbbr')
+       BPAs.names<-colnames(BPAs[which(!is.element(colnames(BPAs),'ProgID'))])
+   }else{
+       BPAs<-NULL
+       BPAs.names<-NULL
+   }
 
+   if(nrow(Scores[which(is.element(Scores$ResultID,ResultAbbr[ResultAbbr$ResultType!='BPA','ResultID'])),])>0){
+       Results<-Scores[which(is.element(Scores$ResultID,ResultAbbr[ResultAbbr$ResultType!='BPA','ResultID'])),]
+       Results<-Results[c('ProgID','ResultID','ScorePeer')]
+       Results<-dcast(Results,ProgID~ResultID,value.var = 'ScorePeer',fill = NA)
+       Results<-colnameIDs_to_Names(df.update=Results,df.LinkID_Name=ResultAbbr,ID='ResultID',Name='ResultAbbr')
+       Results.names<-colnames(Results[which(!is.element(colnames(Results),'ProgID'))])
+   }else{
+       Results<-NULL
+       Results.names<-NULL
+   }
    #browser()
    #Some merging and combining to get Budget ID's and Q's
    AcctSummary[,'ProgramCost']<-AcctSummary[,'TotalCost']*AcctSummary[,'PercentAppliedToProg']
@@ -304,6 +393,10 @@ RadSlicer_OpenData<-function(con,BudgetID,CostModelID){
    if(!is.null(df)){
     AcctSummary<-merge(AcctSummary,df[c('ProgID','Quartile','FinalScore')],by='ProgID',all.x = T)
     AcctSummary[is.na(AcctSummary$Quartile),'Quartile']<-'Non-Prioritized'
+   }else{
+     AcctSummary[,'Quartile']<-'Non-Prioritized'
+     AcctSummary[,'FinalScore']<-NA
+
    }
 
 
@@ -322,10 +415,12 @@ RadSlicer_OpenData<-function(con,BudgetID,CostModelID){
    #********************************
    # Update with Scores
    #*********************************
-
+   if(!is.null(BPAs)){
    AcctSummary<-merge(AcctSummary,BPAs,by='ProgID',all.x=T)
+   }
+   if(!is.null(Results)){
    AcctSummary<-merge(AcctSummary,Results,by='ProgID',all.x=T)
-
+   }
    #**********************************************************************
    #Update with Comments - use RXComment ID to style by standard basis set
    #**********************************************************************
