@@ -3,9 +3,6 @@
 #  Functions for making csv and SummaryAllData
 #
 #**************************************************
-
-
-data<-makeOpenPBBData_Summaries(db_name_new,db_host_new,BudgetID,CostModelID)
 #' makeOpenPBBData_Summaries
 #'
 #' makes two summary files outputed as a list. csv is the treemap summary. summaryall is the data for the program level summary
