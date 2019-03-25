@@ -170,9 +170,9 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
       R_Q2<-quantile(Depts[[i]]$ProgramRevenue,prob=1-50/100)
       R_Q3<-quantile(Depts[[i]]$ProgramRevenue,prob=1-75/100)
 
-      FTE_Q1<-quantile(Depts[[i]]$FTE,prob=1-25/100)
-      FTE_Q2<-quantile(Depts[[i]]$FTE,prob=1-50/100)
-      FTE_Q3<-quantile(Depts[[i]]$FTE,prob=1-75/100)
+      FTE_Q1<-quantile(Depts[[i]]$FTE,prob=1-10/100)
+      FTE_Q2<-quantile(Depts[[i]]$FTE,prob=1-20/100)
+      FTE_Q3<-quantile(Depts[[i]]$FTE,prob=1-30/100)
 
       Divs<-Depts[[i]]
       Divs<-split(Divs,Divs$Division)
@@ -182,11 +182,22 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
         for (k in 1:length(Programs)){
           prog<-Programs[[k]]
 
+          #Personnel or NonPersonnel Majority cost
+          p_majority<-0
+          np_majority<-0
+          if(prog$Personnel>prog$NonPersonnel)(p_majority<-4)else(np_majority<-4)
+
+          prog[,'PersonnelDriven']<-p_majority
+          prog[,'NonPersonnelDriven']<-np_majority
+
+          #Pertile Rank stats
           prog[,'Rank_Total']<-Present_Ranking(prog[1,'TotalCost'],T_Q1,T_Q2,T_Q3)
           prog[,'Rank_FTE']<-Present_Ranking(prog[1,'FTE'],FTE_Q1,FTE_Q2,FTE_Q3)
           prog[,'Rank_P']<-Present_Ranking(prog[1,'Personnel'],P_Q1,P_Q2,P_Q3)
           prog[,'Rank_NP']<-Present_Ranking(prog[1,'NonPersonnel'],NP_Q1,NP_Q2,NP_Q3)
           prog[,'Rank_R']<-Present_Ranking(prog[1,'ProgramRevenue'],R_Q1,R_Q2,R_Q3)
+
+
 
           temp<-rbind(temp,prog)
 
