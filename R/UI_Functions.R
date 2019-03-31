@@ -114,7 +114,7 @@ app_spinner<-function(spinner='spin4.gif'){
 #' @examples
 #' app_header(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225)
 
-app_header<-function(header='header.jpg',info.top=245,info.left=20,info.intro='PBB',header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225){
+app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225,info.intro='PBB'){
 
   intro<-paste0('onclick="startIntro_',info.intro,'();"')
 
