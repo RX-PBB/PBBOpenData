@@ -114,7 +114,9 @@ app_spinner<-function(spinner='spin4.gif'){
 #' @examples
 #' app_header(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225)
 
-app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225){
+app_header<-function(header='header.jpg',info.top=245,info.left=20,info.intro='PBB',header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225){
+
+  intro<-paste0('onclick="startIntro_',info.intro,'();"')
 
   tagList(
     tags$div(id="spinnyloader", class="spinny"),
@@ -123,7 +125,9 @@ app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=N
              tags$img(src=paste0("assets/",header)),
 
              tags$div(style=paste0("position:absolute; font-size:40px; top:",info.top,"px; left:",info.left,"px; color:#FFF; font-weight:bold;"),
-               tags$img(src="assets/info.png",style="cursor: pointer;",id="info")
+               #tags$img(src="assets/info.png",style="cursor: pointer;",id="info_bk")
+               HTML(paste0('<img src="assets/info.png" style="cursor: pointer;" ',intro,' id="info_bk"/>'))
+
              ),
 
              if(!is.null(header_logo)){
