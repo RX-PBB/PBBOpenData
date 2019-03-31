@@ -45,7 +45,9 @@ app_head<-function(title="PBB",favicon="favicon.ico",base='openpbbdata.net/prese
       <!-- Specialized -->
         <link rel="stylesheet" href="https://',base,'/assets/lib/styles/spinny.css">
 
-
+      <!-- introjs -->
+        <link rel="stylesheet" href="https://',base,'/assets/lib/styles/introjs.css">
+        <script src="https://',base,'/assets/scripts/intro.js"></script>
        '))
 
    )
@@ -306,5 +308,6 @@ app_footer<-function(logo,logo.top_margin=20,height=205,background_color="#eee",
 app_endjs<-function(){
   tagList(
     HTML('<script src="https://openpbbdata.net/present/assets/scripts/tools.js"></script>')
+    HTML('<script src="https://openpbbdata.net/present/assets/scripts/openpbbdata_intro.js"></script>')
   )
 }
