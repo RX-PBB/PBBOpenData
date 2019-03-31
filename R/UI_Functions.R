@@ -247,7 +247,7 @@ app_feedback<-function(){
 
   tagList(
     column(6,
-       HTML('
+       HTML('<div id="app_feedback">
         <h3 style="margin-top:5px;"><strong>Feedback</strong></h3>
 
         <h4 style="margin-top:5px;">We want to hear from you </h4>
@@ -267,7 +267,7 @@ app_feedback<-function(){
 
           <button id="submit_feedback" type="button" class="btn btn-info action-button">Submit</button>
 
-        </div>'
+        </div></div>'
 
     )))
 
