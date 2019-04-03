@@ -162,6 +162,8 @@ rollup_gvisPie<-function(df,labelvar,numvar){
     temp<-rbind(temp,row)
   }
   colnames(temp)<-c(labelvar,numvar)
+
+  temp<-temp[temp[,numvar]>0,]
   return(temp)
 
   }
