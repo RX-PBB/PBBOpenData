@@ -185,13 +185,15 @@ rollup_gvisPie<-function(df,labelvar,numvar){
 gVis_Pie_ProgramCostSummary<-function(df,dataTitle='Total Cost: ',labelvar='Cost Type',numvar='Cost',sliceVisibilityThreshold= NULL){
        if(nrow(df)==0)(return(NULL))
 
+       title_sum<-sum(df[,numvar],na.rm = T)
+
        df<-rollup_gvisPie(df,labelvar = labelvar, numvar = numvar)
 
        df[,numvar]<-round(df[,numvar],digits=0)
        df<-df[order(-df[,numvar]),]
        colnames(df)[1]<-labelvar
 
-       dataTitle<-paste(dataTitle,format(round(sum(df[,numvar],na.rm = T),digits = 0),big.mark = ','),sep='')
+       dataTitle<-paste(dataTitle,format(round(title_sum,digits = 0),big.mark = ','),sep='')
 
        gvisPieChart( df, labelvar = labelvar, numvar = numvar,
                   options=list(
