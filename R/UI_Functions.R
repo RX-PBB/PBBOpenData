@@ -117,9 +117,9 @@ app_spinner<-function(spinner='spin4.gif'){
 app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225,info.intro=NULL){
 
   if(is.null(info.intro)){
-    intro<-paste0('onclick="startIntro_',"PBB",'();"')
+    intro<-paste0("onclick='RunIntro_OnInfo(\"startIntro_PBB\")'")
   }else{
-    intro<-paste0('onclick="startIntro_',info.intro,'();"')
+    intro<-paste0("onclick='RunIntro_OnInfo(\"",info.intro,"\")'")
   }
 
   tagList(
