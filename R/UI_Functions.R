@@ -220,7 +220,13 @@ app_charts<-function(hasMetrics=F){
 #' app_aboutpbb(about.link,about.who,about.text)
 
 
-app_aboutpbb<-function(about.link,about.who,about.text){
+app_aboutpbb<-function(about.link,about.who,about.text,info.intro=NULL){
+
+  if(is.null(info.intro)){
+    intro<-paste0("onclick='RunIntro_OnInfo(\"startIntro_PBB\")'")
+  }else{
+    intro<-paste0("onclick='RunIntro_OnInfo(\"",info.intro,"\")'")
+  }
 
   tagList(
     column(6,
@@ -228,9 +234,9 @@ app_aboutpbb<-function(about.link,about.who,about.text){
            h4(style='margin-top:5px;',
               HTML(about.text)
            ),
-          HTML("<h4  style='font-weight: 800;cursor: pointer;' id='info2'>
+          HTML(paste0("<h4  style='font-weight: 800;cursor: pointer;'",intro," id='info_bk'>
         <em>The visualization above reflects the cost of our services, and how they align with our strategic goals for the community. <font style='color: #1e3ff4;'>Click for more info.</font></em>
-        </h4>")
+        </h4>"))
     )
   )
 
