@@ -110,11 +110,13 @@ app_spinner<-function(spinner='spin4.gif'){
 #' @param header_logo.top optional org logo position from top
 #' @param header_logo.left optional org logo position from left
 #' @param tabs.height height of tab widget
+#' @param info.click_me additional text can be HTML formatted with style next to info icon
+#' @param info.intro run the intro tutorial on page load. False or Null requires user to click info icon in header.
 #' @export
 #' @examples
 #' app_header(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225)
 
-app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225,info.intro=NULL){
+app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225,info.click_me=NULL,info.intro=NULL){
 
   if(is.null(info.intro)){
     intro<-paste0("onclick='RunIntro_OnInfo(\"startIntro_PBB\")'")
@@ -124,19 +126,19 @@ app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=N
 
   tagList(
     tags$div(id="spinnyloader", class="spinny"),
-   #<!-- City Header, info and logos  -->
+    #<!-- City Header, info and logos  -->
     tags$div(id="header-image", style="position:relative",
              tags$img(src=paste0("assets/",header)),
 
              tags$div(style=paste0("position:absolute; font-size:40px; top:",info.top,"px; left:",info.left,"px; color:#FFF; font-weight:bold;"),
-               #tags$img(src="assets/info.png",style="cursor: pointer;",id="info_bk")
-               HTML(paste0('<img src="assets/info.png" style="cursor: pointer;" ',intro,' id="info_bk"/>'))
+                      #tags$img(src="assets/info.png",style="cursor: pointer;",id="info_bk")
+                      HTML(paste0('<a style="cursor: pointer;color:white;" ',intro,'><img src="assets/info.png" id="info_bk"/>',info.click_me,'</a>'))
 
              ),
 
              if(!is.null(header_logo)){
                tags$div(style=paste0("position:absolute; font-size:40px; top:",header_logo.top,"px; left:",header_logo.left,"px;"),
-                  tags$img(src=paste0("assets/",header_logo))
+                        tags$img(src=paste0("assets/",header_logo))
                )
              }
     ),
