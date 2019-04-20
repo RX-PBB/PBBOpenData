@@ -24,13 +24,16 @@
 #' showModal(ProgramModal(Modal_header=T,Modal_tabs=T,TotalCost=T,Positions=T,OperatingCosts=T))
 
 
-ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab=T,OperatingCosts_tab=T,
+ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab=NULL,OperatingCosts_tab=NULL,
                        Program=input$chartdata_Program,
                        Desc=input$chartdata_Desc,description.HTML=F,
                        TotalCost=input$chartdata_TotalCost,
                        FTE=input$chartdata_FTE,
                        hasProgramMetrics=F,
                        MetricsLink=NULL){
+
+  if(is.null(Positions_tab))(Positions_tab<-T)
+  if(is.null(OperatingCosts_tab))(OperatingCosts_tab<-T)
 
   if(Modal_header==T){
 
