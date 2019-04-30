@@ -24,13 +24,16 @@
 #' showModal(ProgramModal(Modal_header=T,Modal_tabs=T,TotalCost=T,Positions=T,OperatingCosts=T))
 
 
-ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab=T,OperatingCosts_tab=T,
+ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab=NULL,OperatingCosts_tab=NULL,
                        Program=input$chartdata_Program,
                        Desc=input$chartdata_Desc,description.HTML=F,
                        TotalCost=input$chartdata_TotalCost,
                        FTE=input$chartdata_FTE,
                        hasProgramMetrics=F,
                        MetricsLink=NULL){
+
+  if(is.null(Positions_tab))(Positions_tab<-T)
+  if(is.null(OperatingCosts_tab))(OperatingCosts_tab<-T)
 
   if(Modal_header==T){
 
@@ -162,6 +165,8 @@ rollup_gvisPie<-function(df,labelvar,numvar){
     temp<-rbind(temp,row)
   }
   colnames(temp)<-c(labelvar,numvar)
+
+  temp<-temp[temp[,numvar]>0,]
   return(temp)
 
   }
@@ -183,13 +188,15 @@ rollup_gvisPie<-function(df,labelvar,numvar){
 gVis_Pie_ProgramCostSummary<-function(df,dataTitle='Total Cost: ',labelvar='Cost Type',numvar='Cost',sliceVisibilityThreshold= NULL){
        if(nrow(df)==0)(return(NULL))
 
+       title_sum<-sum(df[,numvar],na.rm = T)
+
        df<-rollup_gvisPie(df,labelvar = labelvar, numvar = numvar)
 
        df[,numvar]<-round(df[,numvar],digits=0)
        df<-df[order(-df[,numvar]),]
        colnames(df)[1]<-labelvar
 
-       dataTitle<-paste(dataTitle,format(round(sum(df[,numvar],na.rm = T),digits = 0),big.mark = ','),sep='')
+       dataTitle<-paste(dataTitle,format(round(title_sum,digits = 0),big.mark = ','),sep='')
 
        gvisPieChart( df, labelvar = labelvar, numvar = numvar,
                   options=list(

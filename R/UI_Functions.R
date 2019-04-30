@@ -45,7 +45,9 @@ app_head<-function(title="PBB",favicon="favicon.ico",base='openpbbdata.net/prese
       <!-- Specialized -->
         <link rel="stylesheet" href="https://',base,'/assets/lib/styles/spinny.css">
 
-
+      <!-- introjs -->
+        <link rel="stylesheet" href="https://',base,'/assets/lib/styles/introjs.css">
+        <script src="https://',base,'/assets/scripts/intro.js"></script>
        '))
 
    )
@@ -108,25 +110,35 @@ app_spinner<-function(spinner='spin4.gif'){
 #' @param header_logo.top optional org logo position from top
 #' @param header_logo.left optional org logo position from left
 #' @param tabs.height height of tab widget
+#' @param info.click_me additional text can be HTML formatted with style next to info icon
+#' @param info.intro run the intro tutorial on page load. False or Null requires user to click info icon in header.
 #' @export
 #' @examples
 #' app_header(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225)
 
-app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225){
+app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=NULL,header_logo.top=NULL,header_logo.left=NULL,tabs.height=225,info.click_me=NULL,info.intro=NULL){
+
+  if(is.null(info.intro)){
+    intro<-paste0("onclick='RunIntro_OnInfo(\"startIntro_PBB\")'")
+  }else{
+    intro<-paste0("onclick='RunIntro_OnInfo(\"",info.intro,"\")'")
+  }
 
   tagList(
     tags$div(id="spinnyloader", class="spinny"),
-   #<!-- City Header, info and logos  -->
+    #<!-- City Header, info and logos  -->
     tags$div(id="header-image", style="position:relative",
              tags$img(src=paste0("assets/",header)),
 
              tags$div(style=paste0("position:absolute; font-size:40px; top:",info.top,"px; left:",info.left,"px; color:#FFF; font-weight:bold;"),
-               tags$img(src="assets/info.png",style="cursor: pointer;",id="info")
+                      #tags$img(src="assets/info.png",style="cursor: pointer;",id="info_bk")
+                      HTML(paste0('<a style="cursor: pointer;color:white;" ',intro,'><img src="assets/info.png" id="info_bk"/>',info.click_me,'</a>'))
+
              ),
 
              if(!is.null(header_logo)){
                tags$div(style=paste0("position:absolute; font-size:40px; top:",header_logo.top,"px; left:",header_logo.left,"px;"),
-                  tags$img(src=paste0("assets/",header_logo))
+                        tags$img(src=paste0("assets/",header_logo))
                )
              }
     ),
@@ -210,7 +222,13 @@ app_charts<-function(hasMetrics=F){
 #' app_aboutpbb(about.link,about.who,about.text)
 
 
-app_aboutpbb<-function(about.link,about.who,about.text){
+app_aboutpbb<-function(about.link,about.who,about.text,info.intro=NULL){
+
+  if(is.null(info.intro)){
+    intro<-paste0("onclick='RunIntro_OnInfo(\"startIntro_PBB\")'")
+  }else{
+    intro<-paste0("onclick='RunIntro_OnInfo(\"",info.intro,"\")'")
+  }
 
   tagList(
     column(6,
@@ -218,9 +236,9 @@ app_aboutpbb<-function(about.link,about.who,about.text){
            h4(style='margin-top:5px;',
               HTML(about.text)
            ),
-          HTML("<h4  style='font-weight: 800;cursor: pointer;' id='info2'>
+          HTML(paste0("<h4  style='font-weight: 800;cursor: pointer;'",intro," id='info_bk'>
         <em>The visualization above reflects the cost of our services, and how they align with our strategic goals for the community. <font style='color: #1e3ff4;'>Click for more info.</font></em>
-        </h4>")
+        </h4>"))
     )
   )
 
@@ -237,7 +255,7 @@ app_feedback<-function(){
 
   tagList(
     column(6,
-       HTML('
+       HTML('<div id="app_feedback">
         <h3 style="margin-top:5px;"><strong>Feedback</strong></h3>
 
         <h4 style="margin-top:5px;">We want to hear from you </h4>
@@ -257,7 +275,7 @@ app_feedback<-function(){
 
           <button id="submit_feedback" type="button" class="btn btn-info action-button">Submit</button>
 
-        </div>'
+        </div></div>'
 
     )))
 
@@ -304,6 +322,7 @@ app_footer<-function(logo,logo.top_margin=20,height=205,background_color="#eee",
 #' app_endjs()
 app_endjs<-function(){
   tagList(
-    HTML('<script src="https://openpbbdata.net/present/assets/scripts/tools.js"></script>')
+    HTML('<script src="https://openpbbdata.net/present/assets/scripts/tools.js"></script>'),
+    HTML('<script src="https://openpbbdata.net/present/assets/scripts/openpbbdata_intro.js"></script>')
   )
 }
