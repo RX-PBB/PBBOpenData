@@ -101,21 +101,24 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
             if(!is.null(bpas)){
                 for(x in 1:length(bpas)){
-                  row<-cbind(row,prog[1,bpas[x]])
+                  if(is.null(prog[1,bpas[x]]))(bpa.value<-NA)
+                  row<-cbind(row,bpa.value)
                   colnames(row)[length(row)]<-bpas[x]
                 }
             }
 
             if(!is.null(community)){
                 for(x in 1:length(community)){
-                  row<-cbind(row,prog[1,community[x]])
+                  if(is.null(prog[1,community[x]]))(com.value<-NA)
+                  row<-cbind(row,com.value)
                   colnames(row)[length(row)]<-community[x]
                 }
             }
 
             if(!is.null(governance)){
                 for(x in 1:length(governance)){
-                  row<-cbind(row,prog[1,governance[x]])
+                  if(is.null(prog[1,governance[x]]))(gov.value<-NA)
+                  row<-cbind(row,gov.value)
                   colnames(row)[length(row)]<-governance[x]
                 }
             }
@@ -249,6 +252,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
       temp[,i]<-gsub(";","-",temp[,i])
       temp[,i]<-gsub("!","",temp[,i])
       temp[,i]<-gsub("\"","'",temp[,i])
+      temp[,i]<-gsub("$","",temp[,i])
     }
 
     #update Community Results with PresentAbbr
@@ -287,6 +291,9 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     summaryall[,'FTE']<-summaryall[,'FTE.Alloc']
     summaryall[,'Allocation']<-summaryall[,'PercentAppliedToProg']
 
+    bpas<-bpas[(is.element(bpas,colnames(summaryall)))]
+    community<-community[(is.element(community,colnames(summaryall)))]
+    governance<-bpas[(is.element(governance,colnames(summaryall)))]
     summaryall<-summaryall[c('Fixed','Type','Fund','Department','Division','Group','Program','Final Score','Quartile','Prg#','Cost Type',
                              'Acct_Fund','Acct_Department','Acct_Division','AcctNumber','Cost/Position','ID#','Cost','FTE','Allocation',bpas,community,governance,
                              'AcctType','ItemMeta1','NumberOfItems','TotalCost','ProgNum','Scored','Year','RXCommentID','ProgDescription')]
