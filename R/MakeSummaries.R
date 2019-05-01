@@ -293,7 +293,8 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
     bpas<-bpas[(is.element(bpas,colnames(summaryall)))]
     community<-community[(is.element(community,colnames(summaryall)))]
-    governance<-bpas[(is.element(governance,colnames(summaryall)))]
+    governance<-governance[(is.element(governance,colnames(summaryall)))]
+
     summaryall<-summaryall[c('Fixed','Type','Fund','Department','Division','Group','Program','Final Score','Quartile','Prg#','Cost Type',
                              'Acct_Fund','Acct_Department','Acct_Division','AcctNumber','Cost/Position','ID#','Cost','FTE','Allocation',bpas,community,governance,
                              'AcctType','ItemMeta1','NumberOfItems','TotalCost','ProgNum','Scored','Year','RXCommentID','ProgDescription')]
