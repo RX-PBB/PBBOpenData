@@ -101,7 +101,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
             if(!is.null(bpas)){
                 for(x in 1:length(bpas)){
-                  if(is.null(prog[1,bpas[x]]))(bpa.value<-NA)
+                  if(is.null(prog[1,bpas[x]]))(bpa.value<-NA)else(bpa.value<-prog[1,bpas[x]])
                   row<-cbind(row,bpa.value)
                   colnames(row)[length(row)]<-bpas[x]
                 }
@@ -109,7 +109,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
             if(!is.null(community)){
                 for(x in 1:length(community)){
-                  if(is.null(prog[1,community[x]]))(com.value<-NA)
+                  if(is.null(prog[1,community[x]]))(com.value<-NA)else(com.value<-prog[1,community[x]])
                   row<-cbind(row,com.value)
                   colnames(row)[length(row)]<-community[x]
                 }
@@ -117,7 +117,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
             if(!is.null(governance)){
                 for(x in 1:length(governance)){
-                  if(is.null(prog[1,governance[x]]))(gov.value<-NA)
+                  if(is.null(prog[1,governance[x]]))(gov.value<-NA)else(gov.value<-prog[1,governance[x]])
                   row<-cbind(row,gov.value)
                   colnames(row)[length(row)]<-governance[x]
                 }
