@@ -24,7 +24,7 @@
 #' showModal(ProgramModal(Modal_header=T,Modal_tabs=T,TotalCost=T,Positions=T,OperatingCosts=T))
 
 
-ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab=NULL,OperatingCosts_tab=NULL,
+ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab=NULL,OperatingCosts_tab=NULL,Suggestions_tab=NULL,
                        Program=input$chartdata_Program,
                        Desc=input$chartdata_Desc,description.HTML=F,
                        TotalCost=input$chartdata_TotalCost,
@@ -34,6 +34,7 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab
 
   if(is.null(Positions_tab))(Positions_tab<-T)
   if(is.null(OperatingCosts_tab))(OperatingCosts_tab<-T)
+  if(is.null(Suggestions_tab))(Suggestions_tab<-F)
 
   if(Modal_header==T){
 
@@ -62,13 +63,25 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab
                      #uiOutput('PersonnelCosts_UI'),
                       htmlOutput("ProgramPersonnel_GvizPlot"),
                       rHandsontableOutput('ProgramPersonnel_hot')
-            )}else(Positions_tab<-NULL)
+            )}else(Positions_tab<-tabPanel(""))
 
   if(OperatingCosts_tab==T){OperatingCosts_tab<-tabPanel('Operating Costs',
                      #uiOutput('NonPersonnelCosts_UI'),
                       htmlOutput("ProgramNonPersonnel_GvizPlot"),
                       rHandsontableOutput('ProgramNonPersonnel_hot')
-            )}else(OperatingCosts_tab<-NULL)
+            )}else(OperatingCosts_tab<-tabPanel(""))
+
+
+  if(Suggestions_tab==T){Suggestions_tab<-tabPanel('Suggestion Box',icon=icon('envelope'),br(),
+                       fluidRow(column(10,offset=1,uiOutput('SuggestionBox_UI'),br(),
+                          tags$div(class="form-group shiny-input-container",
+                            HTML('<textarea id="suggestion_comment" rows="4" cols="65"></textarea>
+                                  <button id="suggestion_submit" type="button" class="btn btn-info action-button">Submit</button>')
+                          )
+                       ))
+
+
+  )}else(Suggestions_tab<-tabPanel(""))
 
 
   if(hasProgramMetrics==T){
@@ -83,7 +96,7 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab
 
   if(Modal_tabs==T){
 
-    Modal_tabs<-tagList(tabsetPanel(TotalCost_tab,Positions_tab,OperatingCosts_tab,Metrics_tab))
+    Modal_tabs<-tagList(tabsetPanel(TotalCost_tab,Positions_tab,OperatingCosts_tab,Metrics_tab,Suggestions_tab))
 
   }else(Modal_tabs<-NULL)
 
