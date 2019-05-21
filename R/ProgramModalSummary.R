@@ -96,7 +96,7 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab
 
   if(Modal_tabs==T){
 
-    Modal_tabs<-tagList(tabsetPanel(TotalCost_tab,Positions_tab,OperatingCosts_tab,Metrics_tab,Suggestions_tab))
+    Modal_tabs<-tagList(tabsetPanel(id='ProgramModal_tabs',TotalCost_tab,Positions_tab,OperatingCosts_tab,Metrics_tab,Suggestions_tab))
 
   }else(Modal_tabs<-NULL)
 

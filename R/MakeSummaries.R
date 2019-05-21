@@ -96,7 +96,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
               Personnel=sum(prog[prog$AcctType=='Expense' & prog$`Cost Type`=='Personnel','ProgramCost'],na.rm = T),
               NonPersonnel=sum(prog[prog$AcctType=='Expense' & prog$`Cost Type`=='NonPersonnel','ProgramCost'],na.rm = T),
               ProgramRevenue=sum(prog[prog$AcctType=='Revenue','ProgramCost'],na.rm = T),
-
+              BudgetID=BudgetID,
               stringsAsFactors=F)
 
             if(!is.null(bpas)){

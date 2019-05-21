@@ -159,19 +159,19 @@ app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=N
 #' app_charts()
 
 
-app_charts<-function(hasMetrics=F){
+app_charts<-function(hasMetrics=NULL){
 
   #
-  metrics_tab<-tabPanel(title=NULL)
-  if(hasMetrics==T){
-
-        metrics_tab<-tabPanel('Performance',
-                       h4(em("Below is a summary of how we are doing for the selected result.")),
-                       uiOutput('metrics_summary')
-
-              )
-
-  }
+  # metrics_tab<-tabPanel(title=NULL)
+  # if(hasMetrics==T){
+  #
+  #       metrics_tab<-tabPanel('Performance',
+  #                      h4(em("Below is a summary of how we are doing for the selected result.")),
+  #                      uiOutput('metrics_summary')
+  #
+  #             )
+  #
+  # }
 
   tagList(
       fluidRow(column(4,selectInput('tabset','Select a Tabset',choices='loading',width='100%')),
@@ -196,9 +196,9 @@ app_charts<-function(hasMetrics=F){
                           Shiny.onInputChange('lastClick', Math.random())});"),
 
                          h4(em("**Please allow 5-10 seconds for the table to load"))
-                ),
+                )#,
 
-                metrics_tab
+                #metrics_tab
 
 
 
