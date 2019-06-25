@@ -52,6 +52,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
     #If Account structure still has existing Department or Division in Div 2 and beyond.
     if(is.element('Division',colnames(df)))(colnames(df)[colnames(df)=='Division']<-'Client_Div')
     if(is.element('Department',colnames(df)))(colnames(df)[colnames(df)=='Department']<-'Client_Dept')
+    if(is.element('Description',colnames(df)))(colnames(df)[colnames(df)=='Description']<-'Acct_Description')
 
     #Make Div1/Div2 consistent with open data code for "Department" "Division"
     colnames(ProgInfo)[colnames(ProgInfo)=='ProgDept']<-'Department'
@@ -107,7 +108,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
                 }
             }
 
-            if(!is.null(community)){
+            if(!is.null(community) && length(community)!=0){
                 for(x in 1:length(community)){
                   if(is.null(prog[1,community[x]]))(com.value<-NA)else(com.value<-prog[1,community[x]])
                   row<-cbind(row,com.value)
@@ -115,7 +116,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
                 }
             }
 
-            if(!is.null(governance)){
+            if(!is.null(governance) && length(governance)!=0){
                 for(x in 1:length(governance)){
                   if(is.null(prog[1,governance[x]]))(gov.value<-NA)else(gov.value<-prog[1,governance[x]])
                   row<-cbind(row,gov.value)
