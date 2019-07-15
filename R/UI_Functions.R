@@ -222,7 +222,7 @@ app_charts<-function(hasMetrics=NULL){
 #' app_aboutpbb(about.link,about.who,about.text)
 
 
-app_aboutpbb<-function(about.link,about.who,about.text,info.intro=NULL){
+app_aboutpbb<-function(about.link,about.who,about.text,about.what=' Priority Based Budgeting',info.intro=NULL){
 
   if(is.null(info.intro)){
     intro<-paste0("onclick='RunIntro_OnInfo(\"startIntro_PBB\")'")
@@ -232,7 +232,7 @@ app_aboutpbb<-function(about.link,about.who,about.text,info.intro=NULL){
 
   tagList(
     column(6,
-           h3(style='margin-top:5px;',tags$a(href=about.link,target="_blank",strong("About ",about.who," Priority Based Budgeting"))),
+           h3(style='margin-top:5px;',tags$a(href=about.link,target="_blank",strong("About ",about.who,about.what))),
            h4(style='margin-top:5px;',
               HTML(about.text)
            ),
