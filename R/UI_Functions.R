@@ -41,6 +41,7 @@ app_head<-function(title="PBB",favicon="favicon.ico",base='openpbbdata.net/prese
         <script src="https://',base,'/assets/lib/vizuly2_core.min.js"></script>
         <script src="https://',base,'/assets/scripts/TabControl.js"></script>
         <script src="https://',base,'/assets/scripts/TreeMap.js"></script>
+        <script src="https://',base,'/assets/scripts/BarChart.js"></script>
 
       <!-- Specialized -->
         <link rel="stylesheet" href="https://',base,'/assets/lib/styles/spinny.css">
@@ -159,7 +160,7 @@ app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=N
 #' app_charts()
 
 
-app_charts<-function(hasMetrics=NULL){
+app_charts<-function(hasMetrics=NULL,Results_tab=NULL){
 
   #
   # metrics_tab<-tabPanel(title=NULL)
