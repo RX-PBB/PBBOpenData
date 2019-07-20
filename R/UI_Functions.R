@@ -15,44 +15,51 @@
 #' page_head(title="PBB",favicon="favicon.ico")
 
 app_head<-function(title="PBB",favicon="favicon.ico",base='openpbbdata.net/present'){
-   tagList(
+  tagList(
     HTML(paste0('
-        <meta charset="UTF-8">
-        <title>',title,'</title>
-        <link rel="icon" href="assets/',favicon,'" type="image/x-icon">
-        <link rel="shortcut icon" href="assets/',favicon,'" type="image/x-icon">
+                <meta charset="UTF-8">
+                <title>',title,'</title>
+                <link rel="icon" href="assets/',favicon,'" type="image/x-icon">
+                <link rel="shortcut icon" href="assets/',favicon,'" type="image/x-icon">
 
-        <!-- We use google fonts for many of the examples, but they are not necessary -->
-        <link href="https://fonts.googleapis.com/css?family=Roboto:600,400,200" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Raleway:600, 400" rel="stylesheet" type="text/css">
-
-
-     <!-- Bootstrap -->
+                <!-- We use google fonts for many of the examples, but they are not necessary -->
+                <link href="https://fonts.googleapis.com/css?family=Roboto:600,400,200" rel="stylesheet" type="text/css">
+                <link href="https://fonts.googleapis.com/css?family=Raleway:600, 400" rel="stylesheet" type="text/css">
 
 
-        <link rel="stylesheet" href="https://',base,'/assets/lib/styles/bootstrap.css">
-        <script src="https://',base,'/assets/lib/bootstrap.min.js"></script>
+                <!-- Bootstrap -->
 
 
-      <!-- Vizuly -->
+                <link rel="stylesheet" href="https://',base,'/assets/lib/styles/bootstrap.css">
+                <script src="https://',base,'/assets/lib/bootstrap.min.js"></script>
 
-        <link rel="stylesheet" href="https://',base,'/assets/lib/styles/vizuly.css">
-        <script src="https://',base,'/assets/lib/d3.min.js"></script>
-        <script src="https://',base,'/assets/lib/vizuly2_core.min.js"></script>
-        <script src="https://',base,'/assets/scripts/TabControl.js"></script>
-        <script src="https://',base,'/assets/scripts/TreeMap.js"></script>
-        <script src="https://',base,'/assets/scripts/BarChart.js"></script>
 
-      <!-- Specialized -->
-        <link rel="stylesheet" href="https://',base,'/assets/lib/styles/spinny.css">
+                <!-- Vizuly -->
 
-      <!-- introjs -->
-        <link rel="stylesheet" href="https://',base,'/assets/lib/styles/introjs.css">
-        <script src="https://',base,'/assets/scripts/intro.js"></script>
-       '))
+                <link rel="stylesheet" href="https://',base,'/assets/lib/styles/vizuly.css">
+                <script src="https://',base,'/assets/lib/d3.min.js"></script>
+                <script src="https://',base,'/assets/lib/vizuly2_core2.min.js"></script>
+                <script>
 
-   )
+                vizuly3 = vizuly2;
+
+                </script>
+                <script src="https://',base,'/assets/lib/vizuly2_core.min.js"></script>
+                <script src="https://',base,'/assets/scripts/TabControl.js"></script>
+                <script src="https://',base,'/assets/scripts/TreeMap.js"></script>
+                <script src="https://',base,'/assets/scripts/BarChart_viz2.js"></script>
+
+                <!-- Specialized -->
+                <link rel="stylesheet" href="https://',base,'/assets/lib/styles/spinny.css">
+
+                <!-- introjs -->
+                <link rel="stylesheet" href="https://',base,'/assets/lib/styles/introjs.css">
+                <script src="https://',base,'/assets/scripts/intro.js"></script>
+                '))
+
+    )
 }
+
 
 
 #' app_spinner
@@ -160,21 +167,56 @@ app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=N
 #' app_charts()
 
 
-app_charts<-function(hasMetrics=NULL,Results_tab=NULL){
+app_charts<-function(results_tab=NULL,results_chart_height=500,hasMetrics=NULL){
 
-  #
-  # metrics_tab<-tabPanel(title=NULL)
-  # if(hasMetrics==T){
-  #
-  #       metrics_tab<-tabPanel('Performance',
-  #                      h4(em("Below is a summary of how we are doing for the selected result.")),
-  #                      uiOutput('metrics_summary')
-  #
-  #             )
-  #
-  # }
 
-  tagList(
+  chart_tabs<-NULL
+  if(!is.null(results_tab)){
+
+    if(results_tab==T){
+
+      chart_tabs<-tagList(
+        fluidRow(column(4,selectInput('tabset','Select a Tabset',choices='loading',width='100%')),
+                 column(4,selectInput('budget_year','Select a Budget',choices='loading',width='100%')),
+                 column(4,selectInput('department','Select a Department',choices='All Departments',width='100%'))),
+
+        tabsetPanel(id="chart_tabs",
+
+                    tabPanel('Summary',
+
+                             tags$div(id="stackedbar", style=paste0("width:1100px; height:",results_chart_height,"px; overflow:hidden"))
+                    ),
+                    tabPanel('TreePlot',
+                             h4(em("Click into the boxes below for more detail, you can click down to view details on Departments, Divisions, and Programs. Click \"Overall\" to return to the top.")),
+
+                             tags$div(id="treemap", style="width:1100px; height:700px; overflow:hidden")
+                    ),
+                    tabPanel("Table",
+                             h4(em("The table shows the highest cost program by category. Click more info to see a detailed breakdown of the program costs.")),
+                             br(),
+                             fluidRow(column(12,DT::dataTableOutput('ProgramResultsTable'))),
+                             tags$script("$(document).on('click', '#ProgramResultsTable button', function () {
+                                         Shiny.onInputChange('lastClickId',this.id);
+                                         Shiny.onInputChange('lastClick', Math.random())});"),
+
+                             h4(em("**Please allow 5-10 seconds for the table to load"))
+                    )#,
+
+                    #metrics_tab
+
+
+
+
+        ),
+
+        hr()
+      )
+    }
+
+  }else{
+
+
+    chart_tabs<-tagList(
       fluidRow(column(4,selectInput('tabset','Select a Tabset',choices='loading',width='100%')),
                column(4,selectInput('budget_year','Select a Budget',choices='loading',width='100%')),
                column(4,selectInput('department','Select a Department',choices='All Departments',width='100%'))),
@@ -182,24 +224,23 @@ app_charts<-function(hasMetrics=NULL,Results_tab=NULL){
 
       tabsetPanel(id="chart_tabs",
 
+                  tabPanel('TreePlot',
+                           h4(em("Click into the boxes below for more detail, you can click down to view details on Departments, Divisions, and Programs. Click \"Overall\" to return to the top.")),
 
-                tabPanel('TreePlot',
-                         h4(em("Click into the boxes below for more detail, you can click down to view details on Departments, Divisions, and Programs. Click \"Overall\" to return to the top.")),
+                           tags$div(id="treemap", style="width:1100px; height:700px; overflow:hidden")
+                  ),
+                  tabPanel("Table",
+                           h4(em("The table shows the highest cost program by category. Click more info to see a detailed breakdown of the program costs.")),
+                           br(),
+                           fluidRow(column(12,DT::dataTableOutput('ProgramResultsTable'))),
+                           tags$script("$(document).on('click', '#ProgramResultsTable button', function () {
+                                       Shiny.onInputChange('lastClickId',this.id);
+                                       Shiny.onInputChange('lastClick', Math.random())});"),
 
-                         tags$div(id="treemap", style="width:1100px; height:700px; overflow:hidden")
-                ),
-                tabPanel("Table",
-                         h4(em("The table shows the highest cost program by category. Click more info to see a detailed breakdown of the program costs.")),
-                         br(),
-                         fluidRow(column(12,DT::dataTableOutput('ProgramResultsTable'))),
-                          tags$script("$(document).on('click', '#ProgramResultsTable button', function () {
-                          Shiny.onInputChange('lastClickId',this.id);
-                          Shiny.onInputChange('lastClick', Math.random())});"),
+                           h4(em("**Please allow 5-10 seconds for the table to load"))
+                  )#,
 
-                         h4(em("**Please allow 5-10 seconds for the table to load"))
-                )#,
-
-                #metrics_tab
+                  #metrics_tab
 
 
 
@@ -207,10 +248,14 @@ app_charts<-function(hasMetrics=NULL,Results_tab=NULL){
       ),
 
       hr()
-  )
+    )
 
 
+  }
+
+  return(chart_tabs)
 }
+
 
 #' app_aboutpbb
 #'
