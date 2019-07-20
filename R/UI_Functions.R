@@ -162,6 +162,8 @@ app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=N
 #'
 #' Sets the UI of charts for our app across a set of tabs
 #' @param hasMetrics Include the metrics tab
+#' @param results_tab Include the summary results tab
+#' @param results_chart_height height of summary chart
 #' @export
 #' @examples
 #' app_charts()
