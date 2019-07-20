@@ -4,9 +4,14 @@
 \alias{app_charts}
 \title{app_charts}
 \usage{
-app_charts(hasMetrics = F)
+app_charts(results_tab = NULL, results_chart_height = 500,
+  hasMetrics = NULL)
 }
 \arguments{
+\item{results_tab}{Include the summary results tab}
+
+\item{results_chart_height}{height of summary chart}
+
 \item{hasMetrics}{Include the metrics tab}
 }
 \description{
