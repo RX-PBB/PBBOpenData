@@ -174,7 +174,7 @@ app_charts<-function(results_tab=NULL,results_chart_height=500,hasMetrics=NULL){
 
 
   if(!is.null(results_tab)){
-
+      logjs(results_tab)
 
 
       chart_tabs<-tagList(
