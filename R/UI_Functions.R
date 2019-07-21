@@ -172,10 +172,10 @@ app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=N
 app_charts<-function(results_tab=NULL,results_chart_height=500,hasMetrics=NULL){
 
 
-  chart_tabs<-NULL
+
   if(!is.null(results_tab)){
 
-    if(results_tab==T){
+
 
       chart_tabs<-tagList(
         fluidRow(column(4,selectInput('tabset','Select a Tabset',choices='loading',width='100%')),
@@ -213,7 +213,7 @@ app_charts<-function(results_tab=NULL,results_chart_height=500,hasMetrics=NULL){
 
         hr()
       )
-    }
+
 
   }else{
 
