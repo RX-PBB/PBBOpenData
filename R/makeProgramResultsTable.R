@@ -4,6 +4,7 @@
 #' @param df present pbb data
 #' @param buttons what buttons to use
 #' @param tabdata_dataField what column of data to include from the present sumary csv data
+#' @param height table height
 #' @export
 #' @examples
 #' make_ProgramResultsTable(df,tabdata_dataField=input$tabdata_dataField, buttons=c('copy', 'excel', 'print'))

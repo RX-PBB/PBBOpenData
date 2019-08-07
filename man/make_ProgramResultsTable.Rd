@@ -5,7 +5,7 @@
 \title{make_ProgramResultsTable}
 \usage{
 make_ProgramResultsTable(df, tabdata_dataField, buttons = c("copy",
-  "excel", "print"), doneFun = NULL)
+  "excel", "print"), doneFun = NULL, height = 600)
 }
 \arguments{
 \item{df}{present pbb data}
@@ -13,6 +13,8 @@ make_ProgramResultsTable(df, tabdata_dataField, buttons = c("copy",
 \item{tabdata_dataField}{what column of data to include from the present sumary csv data}
 
 \item{buttons}{what buttons to use}
+
+\item{height}{table height}
 }
 \description{
 Create a DT table of the pbb data for the chart tabs
