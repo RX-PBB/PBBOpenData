@@ -10,7 +10,7 @@
 
 
 
-make_ProgramResultsTable<-function(df,tabdata_dataField,buttons=c('copy', 'excel', 'print'), doneFun=NULL){
+make_ProgramResultsTable<-function(df,tabdata_dataField,buttons=c('copy', 'excel', 'print'), doneFun=NULL,height=600){
 
   df[["More Info"]]<-
     paste0('
@@ -28,7 +28,7 @@ make_ProgramResultsTable<-function(df,tabdata_dataField,buttons=c('copy', 'excel
   df<-df[order(-df[,tabdata_dataField],-df$DirectCost),]
   df$DirectCost<-format(round(df$DirectCost,digits=0),big.mark = ",")
 
-  height<-600
+  #height<-600
 
   width<-1100
 
