@@ -14,7 +14,6 @@
 #' @examples
 #' makeOpenPBBData_Summaries(db_name_new,db_host_new,BudgetID,CostModelID)
 
-
 makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID){
 
 
@@ -84,6 +83,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
             row<-data.frame(
               Year=prog[1,'Year'],
+              ProgramGroup=prog[1,'ProgGroup'],
               Type=prog[1,'ServiceType'],
               Department=prog[1,'Department'],
               Division=prog[1,'Division'],
