@@ -16,7 +16,6 @@
 
 makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID){
 
-
     con <- dbConnect(MySQL(),
                       user="mtseman",
                       password="cree1234",
@@ -83,7 +82,6 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
             row<-data.frame(
               Year=prog[1,'Year'],
-              ProgramGroup=prog[1,'ProgGroup'],
               Type=prog[1,'ServiceType'],
               Department=prog[1,'Department'],
               Division=prog[1,'Division'],
@@ -98,6 +96,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
               NonPersonnel=sum(prog[prog$AcctType=='Expense' & prog$`Cost Type`=='NonPersonnel','ProgramCost'],na.rm = T),
               ProgramRevenue=sum(prog[prog$AcctType=='Revenue','ProgramCost'],na.rm = T),
               BudgetID=BudgetID,
+              ProgramGroup=prog[1,'ProgGroup'],
               stringsAsFactors=F)
 
             if(!is.null(bpas)){
