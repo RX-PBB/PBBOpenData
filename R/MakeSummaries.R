@@ -15,7 +15,13 @@
 #' makeOpenPBBData_Summaries(db_name_new,db_host_new,BudgetID,CostModelID)
 
 
+
 makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID){
+
+  # db_name_new<-'RX_KCMO_CW_copy1'
+  # db_host_new<-'ec2-52-11-250-69.us-west-2.compute.amazonaws.com'
+  # BudgetID<-60
+  # CostModelID<-2
 
 
     con <- dbConnect(MySQL(),
@@ -100,7 +106,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
               BudgetID=BudgetID,
               stringsAsFactors=F)
 
-            if(!is.null(bpas)){
+            if(!is.null(bpas)&& length(bpas)!=0){
                 for(x in 1:length(bpas)){
                   if(is.null(prog[1,bpas[x]]))(bpa.value<-NA)else(bpa.value<-prog[1,bpas[x]])
                   row<-cbind(row,bpa.value)
