@@ -4,7 +4,8 @@
 \alias{app_aboutpbb}
 \title{app_aboutpbb}
 \usage{
-app_aboutpbb(about.link, about.who, about.text, info.intro = NULL)
+app_aboutpbb(about.link, about.who, about.text,
+  about.what = " Priority Based Budgeting", info.intro = NULL)
 }
 \arguments{
 \item{about.link}{A link to their page, typically finance or city manager or maybe they have a PBB page}
