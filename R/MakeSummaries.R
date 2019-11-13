@@ -816,9 +816,9 @@ PullFinalScores_OpenData<-function(con,BudgetID,CostModelID){
 
 
       rows[,'Quartile']<-4
-      rows[rows$FinalScore>=rows$Q3_Q4,'Quartile']<-3
-      rows[rows$FinalScore>=rows$Q2_Q3,'Quartile']<-2
-      rows[rows$FinalScore>=rows$Q1_Q2,'Quartile']<-1
+      if(!is.na(Q3_Q4))(rows[rows$FinalScore>=rows$Q3_Q4,'Quartile']<-3)
+      if(!is.na(Q2_Q3))(rows[rows$FinalScore>=rows$Q2_Q3,'Quartile']<-2)
+      if(!is.na(Q1_Q2))(rows[rows$FinalScore>=rows$Q1_Q2,'Quartile']<-1)
 
       temp<-rbind(temp,rows)
     }
@@ -853,5 +853,4 @@ PullFinalScores_OpenData<-function(con,BudgetID,CostModelID){
   data$AllResults<-AllResults
   return(data)
 }
-
 
