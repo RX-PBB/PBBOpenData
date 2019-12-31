@@ -57,22 +57,22 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab
 
   }
 
-  if(TotalCost_tab==T)(TotalCost_tab<-tabPanel('Total Cost',htmlOutput("ProgramTotal_GvizPlot")))else(TotalCost_tab<-NULL)
+  if(TotalCost_tab==T)(TotalCost_tab<-shiny::tabPanel('Total Cost',htmlOutput("ProgramTotal_GvizPlot")))else(TotalCost_tab<-NULL)
 
-  if(Positions_tab==T){Positions_tab<-tabPanel('Positions',
+  if(Positions_tab==T){Positions_tab<-shiny::tabPanel('Positions',
                      #uiOutput('PersonnelCosts_UI'),
                       htmlOutput("ProgramPersonnel_GvizPlot"),
                       rHandsontableOutput('ProgramPersonnel_hot')
-            )}else(Positions_tab<-tabPanel(""))
+            )}else(Positions_tab<-shiny::tabPanel(""))
 
-  if(OperatingCosts_tab==T){OperatingCosts_tab<-tabPanel('Operating Costs',
+  if(OperatingCosts_tab==T){OperatingCosts_tab<-shiny::tabPanel('Operating Costs',
                      #uiOutput('NonPersonnelCosts_UI'),
                       htmlOutput("ProgramNonPersonnel_GvizPlot"),
                       rHandsontableOutput('ProgramNonPersonnel_hot')
-            )}else(OperatingCosts_tab<-tabPanel(""))
+            )}else(OperatingCosts_tab<-shiny::tabPanel(""))
 
 
-  if(Suggestions_tab==T){Suggestions_tab<-tabPanel('Suggestion Box',icon=icon('envelope'),br(),
+  if(Suggestions_tab==T){Suggestions_tab<-shiny::tabPanel('Suggestion Box',icon=icon('envelope'),br(),
                        fluidRow(column(10,offset=1,uiOutput('SuggestionBox_UI'),br(),
                           tags$div(class="form-group shiny-input-container",
                             HTML('<textarea id="suggestion_comment" rows="4" cols="65"></textarea>
@@ -81,22 +81,22 @@ ProgramModal<-function(Modal_header=T,Modal_tabs=T,TotalCost_tab=T,Positions_tab
                        ))
 
 
-  )}else(Suggestions_tab<-tabPanel(""))
+  )}else(Suggestions_tab<-shiny::tabPanel(""))
 
 
   if(hasProgramMetrics==T){
 
-    Metrics_tab<-tabPanel('Performance',
+    Metrics_tab<-shiny::tabPanel('Performance',
 
                     HTML(paste0('<iframe src="',MetricsLink,'" style="width:100%;height:350px;"></iframe>'))
 
     )
 
-  }else{Metrics_tab<-tabPanel("")}
+  }else{Metrics_tab<-shiny::tabPanel("")}
 
   if(Modal_tabs==T){
 
-    Modal_tabs<-tagList(tabsetPanel(id='ProgramModal_tabs',TotalCost_tab,Positions_tab,OperatingCosts_tab,Metrics_tab,Suggestions_tab))
+    Modal_tabs<-tagList(shiny::tabsetPanel(id='ProgramModal_tabs',TotalCost_tab,Positions_tab,OperatingCosts_tab,Metrics_tab,Suggestions_tab))
 
   }else(Modal_tabs<-NULL)
 
