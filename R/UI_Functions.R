@@ -178,14 +178,14 @@ app_charts<-function(results_tab=NULL,results_chart_height=500,hasMetrics=NULL){
              column(4,selectInput('department','Select a Department',choices='All Departments',width='100%'))),
 
 
-    tabsetPanel(id="chart_tabs",
+    shiny::tabsetPanel(id="chart_tabs",
 
-                tabPanel('TreePlot',
+                shiny::tabPanel('TreePlot',
                          h4(em("Click into the boxes below for more detail, you can click down to view details on Departments, Divisions, and Programs. Click \"Overall\" to return to the top.")),
 
                          tags$div(id="treemap", style="width:1100px; height:700px; overflow:hidden")
                 ),
-                tabPanel("Table",
+                shiny::tabPanel("Table",
                          h4(em("The table shows the highest cost program by category. Click more info to see a detailed breakdown of the program costs.")),
                          br(),
                          fluidRow(column(12,DT::dataTableOutput('ProgramResultsTable'))),
@@ -215,18 +215,18 @@ app_charts<-function(results_tab=NULL,results_chart_height=500,hasMetrics=NULL){
                  column(4,selectInput('budget_year','Select a Budget',choices='loading',width='100%')),
                  column(4,selectInput('department','Select a Department',choices='All Departments',width='100%'))),
 
-        tabsetPanel(id="chart_tabs",
+        shiny::tabsetPanel(id="chart_tabs",
 
-                    tabPanel('Summary',
+                    shiny::tabPanel('Summary',
 
                              tags$div(id="stackedbar", style=paste0("width:1100px; height:",results_chart_height,"px; overflow:hidden"))
                     ),
-                    tabPanel('TreePlot',
+                    shiny::tabPanel('TreePlot',
                              h4(em("Click into the boxes below for more detail, you can click down to view details on Departments, Divisions, and Programs. Click \"Overall\" to return to the top.")),
 
                              tags$div(id="treemap", style="width:1100px; height:700px; overflow:hidden")
                     ),
-                    tabPanel("Table",
+                    shiny::tabPanel("Table",
                              h4(em("The table shows the highest cost program by category. Click more info to see a detailed breakdown of the program costs.")),
                              br(),
                              fluidRow(column(12,DT::dataTableOutput('ProgramResultsTable'))),
