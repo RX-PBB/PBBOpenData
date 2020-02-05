@@ -167,9 +167,22 @@ app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=N
 #' @export
 #' @examples
 #' app_charts()
+app_charts<-function(results_tab=NULL,results_chart_height=500,include_legend=NULL,hasMetrics=NULL){
 
+  treemap_legend<-NULL
+  if(!is.null(include_legend)){
 
-app_charts<-function(results_tab=NULL,results_chart_height=500,hasMetrics=NULL){
+    if(include_legend==TRUE){
+      treemap_legend<-uiOutput('treemap_legend')
+    }else{
+      treemap_legend<-NULL
+    }
+
+  }else{
+    #default other clients to always include unless we come back and specify false
+    #but for now test as default no on if not specified
+    #treemap_legend<-uiOutput('treemap_legend')
+  }
 
 
   chart_tabs<-tagList(
@@ -181,9 +194,15 @@ app_charts<-function(results_tab=NULL,results_chart_height=500,hasMetrics=NULL){
     shiny::tabsetPanel(id="chart_tabs",
 
                 shiny::tabPanel('TreePlot',
-                         h4(em("Click into the boxes below for more detail, you can click down to view details on Departments, Divisions, and Programs. Click \"Overall\" to return to the top.")),
 
-                         tags$div(id="treemap", style="width:1100px; height:700px; overflow:hidden")
+                          h4(em("Click into the boxes below for more detail, you can click down to view details on Departments, Divisions, and Programs. Click \"Overall\" to return to the top.")),
+
+
+                         tags$div(id="treemap", style="width:1100px; height:700px; overflow:hidden"),
+
+                         treemap_legend
+
+
                 ),
                 shiny::tabPanel("Table",
                          h4(em("The table shows the highest cost program by category. Click more info to see a detailed breakdown of the program costs.")),
@@ -224,7 +243,14 @@ app_charts<-function(results_tab=NULL,results_chart_height=500,hasMetrics=NULL){
                     shiny::tabPanel('TreePlot',
                              h4(em("Click into the boxes below for more detail, you can click down to view details on Departments, Divisions, and Programs. Click \"Overall\" to return to the top.")),
 
-                             tags$div(id="treemap", style="width:1100px; height:700px; overflow:hidden")
+                             h4(em("In the plot below, each box represents a program. The size of the box shows cost. Box shade indicates how significant the program is to achieving the result. The darker the shade the more aligned the program is with the selected result.")),
+
+
+                             tags$div(id="treemap", style="width:1100px; height:700px; overflow:hidden"),
+
+                             treemap_legend
+
+
                     ),
                     shiny::tabPanel("Table",
                              h4(em("The table shows the highest cost program by category. Click more info to see a detailed breakdown of the program costs.")),
