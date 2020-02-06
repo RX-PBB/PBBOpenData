@@ -167,10 +167,12 @@ app_header<-function(header='header.jpg',info.top=245,info.left=20,header_logo=N
 #' @export
 #' @examples
 #' app_charts()
-app_charts<-function(results_tab=NULL,results_chart_height=500,hasMetrics=NULL){
+app_charts<-function(results_tab=NULL,results_chart_height=500,
+                     include_legend=treemap$include_legend,
+                     legend_position=treemap$legend_position,
+                     hasMetrics=NULL){
 
-  include_legend<-treemap$include_legend
-  legend_position<-treemap$legend_position
+
   treemap_legend<-NULL
 
 
