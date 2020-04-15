@@ -16,8 +16,6 @@
 #' @examples
 #' makeOpenPBBData_Summaries(db_name_new,db_host_new,BudgetID,CostModelID)
 
-
-
 makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,db_user,db_pw,BudgetID,CostModelID,ScoreReview='ScorePeer'){
 
 
@@ -652,9 +650,13 @@ PullAllocations_OpenData<-function(con,BudgetID,CostModelID){
     obj_level_names<-function(allocations,obj='Obj1',objcode='Obj1Code',level='obj_level_01'){
 
       #Both Code and Name
-      # browser()
+
       allocations[allocations[,obj]!=obj & allocations[,objcode]!=objcode,level]<-paste("(",allocations[allocations[,obj]!=obj & allocations[,objcode]!=objcode,objcode],") ",
                                                                                         allocations[allocations[,obj]!=obj & allocations[,objcode]!=objcode,obj],sep='')
+      #Clean back for any blank codes
+       allocations[allocations[,obj]!=obj & allocations[,objcode]!=objcode,level]<-allocations[,level]<-gsub("[)]\\s","",allocations[allocations[,obj]!=obj & allocations[,objcode]!=objcode,level])
+       allocations[allocations[,obj]!=obj & allocations[,objcode]!=objcode,level]<-allocations[,level]<-gsub("[(]","",allocations[allocations[,obj]!=obj & allocations[,objcode]!=objcode,level])
+
       # Obj1 Only Used
       allocations[allocations[,obj]!=obj & allocations[,objcode]==objcode,level]<-paste(allocations[allocations[,obj]!=obj & allocations[,objcode]==objcode,obj],sep='')
 
