@@ -6,7 +6,7 @@
 \usage{
 updateTreeMap_Tab_SummaryAll(session, DropBox_dir, local_dir, budget,
   tabset, TabIndex, data_treemap = "/data_treemap.csv",
-  use_DropBox = F)
+  use_DropBox = F, update_treepmap = T)
 }
 \arguments{
 \item{session}{shiny server session variable}

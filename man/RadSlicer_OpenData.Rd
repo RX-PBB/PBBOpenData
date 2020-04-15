@@ -4,7 +4,7 @@
 \alias{RadSlicer_OpenData}
 \title{RadSlicer_OpenData}
 \usage{
-RadSlicer_OpenData(con, BudgetID, CostModelID)
+RadSlicer_OpenData(con, BudgetID, CostModelID, ScoreReview = "PeerScore")
 }
 \arguments{
 \item{con}{RMySQL connection}

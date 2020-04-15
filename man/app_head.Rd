@@ -5,7 +5,7 @@
 \title{app_head}
 \usage{
 app_head(title = "PBB", favicon = "favicon.ico",
-  base = "https://openpbbdata.net/present")
+  base = "openpbbdata.net/present")
 }
 \arguments{
 \item{title}{pAGE title}

@@ -8,6 +8,8 @@
 #' makes two summary files outputed as a list. csv is the treemap summary. summaryall is the data for the program level summary
 #' @param db_name_new name of org database
 #' @param db_host_new database host
+#' @param db_user database user
+#' @param db_pw database pw
 #' @param BudgetID Budget ID we want to summarize
 #' @param CostModelID Costmodel ID of the PBB accounting structure
 #' @export
@@ -16,7 +18,7 @@
 
 
 
-makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,db_user,db_pw,BudgetID,CostModelID,ScoreReview='ScorePeer',db_user,db_pw){
+makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,db_user,db_pw,BudgetID,CostModelID,ScoreReview='ScorePeer'){
 
 
 

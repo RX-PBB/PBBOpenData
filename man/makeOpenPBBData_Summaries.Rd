@@ -4,12 +4,17 @@
 \alias{makeOpenPBBData_Summaries}
 \title{makeOpenPBBData_Summaries}
 \usage{
-makeOpenPBBData_Summaries(db_name_new, db_host_new, BudgetID, CostModelID)
+makeOpenPBBData_Summaries(db_name_new, db_host_new, db_user, db_pw,
+  BudgetID, CostModelID, ScoreReview = "ScorePeer")
 }
 \arguments{
 \item{db_name_new}{name of org database}
 
 \item{db_host_new}{database host}
+
+\item{db_user}{database user}
+
+\item{db_pw}{database pw}
 
 \item{BudgetID}{Budget ID we want to summarize}
 
