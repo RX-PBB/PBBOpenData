@@ -16,7 +16,7 @@
 
 
 
-makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,db_user,db_pw,BudgetID,CostModelID,ScoreReview='ScorePeer'){
+makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,db_user,db_pw,BudgetID,CostModelID,ScoreReview='ScorePeer',db_user,db_pw){
 
 
 
