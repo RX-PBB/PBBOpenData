@@ -16,17 +16,13 @@
 
 
 
-makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID,ScoreReview='ScorePeer'){
+makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,db_user,db_pw,BudgetID,CostModelID,ScoreReview='ScorePeer'){
 
-  # db_name_new<-'RX_KCMO_CW_copy1'
-  # db_host_new<-'ec2-52-11-250-69.us-west-2.compute.amazonaws.com'
-  # BudgetID<-60
-  # CostModelID<-2
 
 
   con <- dbConnect(MySQL(),
-                   user="mtseman",
-                   password="118brookview",
+                   user=db_user,
+                   password=db_pw,
                    host=db_host_new,
                    dbname=db_name_new)
 
