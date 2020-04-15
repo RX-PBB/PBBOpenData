@@ -26,7 +26,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,BudgetID,CostModelID
 
   con <- dbConnect(MySQL(),
                    user="mtseman",
-                   password="cree1234",
+                   password="118brookview",
                    host=db_host_new,
                    dbname=db_name_new)
 
