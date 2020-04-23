@@ -1,3 +1,5 @@
+
+
 #**************************************************
 #
 #  Functions for making csv and SummaryAllData
@@ -71,6 +73,22 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,db_user,db_pw,Budget
   bpas<-ResultSetup[ResultSetup$ResultType=='BPA','ResultAbbr']
   community<-ResultSetup[ResultSetup$ResultType=='Community','ResultAbbr']
   governance<-ResultSetup[ResultSetup$ResultType=='Governance','ResultAbbr']
+
+  #The case where there are no allocations
+  if(nrow(df)==0){
+
+    col.names<-c('Fixed','Type','Fund','Department','Division','Group','Program','Final Score','Quartile','Prg#','Cost Type',
+      'Acct_Fund','Acct_Department','Acct_Division','AcctNumber','Cost/Position','ID#','Cost','FTE','Allocation',bpas,community,governance,
+      'AcctType','ItemMeta1','NumberOfItems','TotalCost','ProgNum','Scored','Year','RXCommentID','ProgDescription')
+     summaryall<-create_empty_df(length(col.names),col.names)
+
+
+      data<-list()
+      data$csv<-df
+      data$summaryall<-summaryall
+
+      return(data)
+  }
 
   temp<-NULL
   Depts<-split(df,df$Department)
@@ -256,6 +274,7 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,db_user,db_pw,Budget
     temp[,i]<-gsub("!","",temp[,i])
     temp[,i]<-gsub("\"","'",temp[,i])
     temp[,i]<-gsub("$","",temp[,i])
+    temp[,i]<-gsub("*","",temp[,i])
   }
 
   #update Community Results with PresentAbbr
@@ -404,8 +423,16 @@ RadSlicer_OpenData<-function(con,BudgetID,CostModelID,ScoreReview='PeerScore'){
   AcctSummary[,'ProgramCost']<-AcctSummary[,'TotalCost']*AcctSummary[,'PercentAppliedToProg']
   AcctSummary<-merge(AcctSummary,ResultTypes[c('ResultType','Scored')],by.x='ServiceType',by.y='ResultType')
   AcctSummary<-merge(AcctSummary,BudgetInfo[c('BudgetID','Year','BudgetName')],by='BudgetID')
-  AcctSummary[AcctSummary$Scored==1,'Scored']<-'Prioritized'
-  AcctSummary[AcctSummary$Scored==0,'Scored']<-'Non-Prioritized'
+
+  if(nrow(AcctSummary)>0){
+
+      if(nrow(AcctSummary[AcctSummary$Scored==1,])>0){
+      AcctSummary[AcctSummary$Scored==1,'Scored']<-'Prioritized'
+      }
+      if(nrow(AcctSummary[AcctSummary$Scored==0,])>0){
+      AcctSummary[AcctSummary$Scored==0,'Scored']<-'Non-Prioritized'
+      }
+  }
 
   df<-df$FinalScores
   df<-df[df$Score=='Peer',]
@@ -413,8 +440,15 @@ RadSlicer_OpenData<-function(con,BudgetID,CostModelID,ScoreReview='PeerScore'){
     AcctSummary<-merge(AcctSummary,df[c('ProgID','Quartile','FinalScore')],by='ProgID',all.x = T)
     AcctSummary[is.na(AcctSummary$Quartile),'Quartile']<-'Non-Prioritized'
   }else{
+
+    if(nrow(AcctSummary)>0){
     AcctSummary[,'Quartile']<-'Non-Prioritized'
     AcctSummary[,'FinalScore']<-NA
+    }else{
+      #add columns for empty data frame case
+      AcctSummary<-cbind(AcctSummary,create_empty_df(2,c('Quartile','FinalScore')))
+
+    }
 
   }
 
@@ -429,8 +463,13 @@ RadSlicer_OpenData<-function(con,BudgetID,CostModelID,ScoreReview='PeerScore'){
   colnames(AcctSummary)[colnames(AcctSummary)=='Div8']<-CostModelInfo$Div8Name
 
   #Add a Year - Budget Column
+  if(nrow(AcctSummary)>0){
   AcctSummary[,'BudgetYearName']<-paste(AcctSummary[,'Year']," - ",AcctSummary[,'BudgetName'],sep='')
+  }else{
+      #add columns for empty data frame case
+      AcctSummary<-cbind(AcctSummary,create_empty_df(1,c('BudgetYearName')))
 
+  }
   #********************************
   # Update with Scores
   #*********************************
@@ -586,7 +625,7 @@ PullAllocations_OpenData<-function(con,BudgetID,CostModelID){
   #browser()
   if(nrow(Alloc)==0){
 
-    Alloc<-PBBMikesGeneral::create_empty_df(n.cols=9,col.names=c('ItemID','PercentAppliedToProg','ProgID','AllocComments','AllocLastUpdated','AllocLastUser','byFTE','byFTEDivision','BudgetID'))
+    Alloc<-create_empty_df(n.cols=9,col.names=c('ItemID','PercentAppliedToProg','ProgID','AllocComments','AllocLastUpdated','AllocLastUser','byFTE','byFTEDivision','BudgetID'))
 
   }
 
@@ -853,4 +892,3 @@ PullFinalScores_OpenData<-function(con,BudgetID,CostModelID){
   data$AllResults<-AllResults
   return(data)
 }
-
