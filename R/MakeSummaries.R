@@ -1,5 +1,3 @@
-
-
 #**************************************************
 #
 #  Functions for making csv and SummaryAllData
@@ -892,3 +890,5 @@ PullFinalScores_OpenData<-function(con,BudgetID,CostModelID){
   data$AllResults<-AllResults
   return(data)
 }
+
+
