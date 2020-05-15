@@ -43,6 +43,12 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,db_user,db_pw,Budget
   statement<-paste("SELECT * FROM ProgInfo;",sep='')
   ProgInfo<-dbGetQuery(conn=con,statement=statement)
 
+  statement<-paste("SELECT * FROM PBBComments;",sep='')
+  PBBComments<-dbGetQuery(conn=con,statement=statement)
+
+  statement<-paste("SELECT * FROM ProgBudgetInfo WHERE BudgetID = ",BudgetID,";",sep='')
+  ProgBudgetInfo<-dbGetQuery(conn=con,statement=statement)
+
   dbDisconnect(con)
 
   Div1<-CostModelInfo$Div1Name
@@ -88,6 +94,11 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,db_user,db_pw,Budget
       return(data)
   }
 
+
+
+  insights<-merge(ProgBudgetInfo[,c('ProgID','ProgBudgetNote','PBBCommentID')],PBBComments[,c('PBBCommentID','PBBComment')])
+  df<-merge(df,insights[,c('ProgID','PBBComment','ProgBudgetNote')],all.x=T)
+
   temp<-NULL
   Depts<-split(df,df$Department)
   for (i in 1:length(Depts)){
@@ -116,6 +127,8 @@ makeOpenPBBData_Summaries<-function(db_name_new,db_host_new,db_user,db_pw,Budget
           NonPersonnel=sum(prog[prog$AcctType=='Expense' & prog$`Cost Type`=='NonPersonnel','ProgramCost'],na.rm = T),
           ProgramRevenue=sum(prog[prog$AcctType=='Revenue','ProgramCost'],na.rm = T),
           BudgetID=BudgetID,
+          PBBComment=prog[1,'PBBComment'],
+          Insight=prog[1,'ProgBudgetNote'],
           stringsAsFactors=F)
 
         if(!is.null(bpas)&& length(bpas)!=0){
@@ -890,5 +903,4 @@ PullFinalScores_OpenData<-function(con,BudgetID,CostModelID){
   data$AllResults<-AllResults
   return(data)
 }
-
 
